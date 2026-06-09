@@ -1,0 +1,2137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WESTI — Barbería</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@700;900&family=Abril+Fatface&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<!-- Lenis smooth scroll -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+<style>
+:root{--bg:#0A0A0A;--bg2:#111111;--bg3:#1C1C1C;--gold:#C9A84C;--gold2:#D4AF37;--cream:#F5F0E8;--muted:#666;--border:rgba(201,168,76,.2);--fh:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;--r:8px;--nav:72px;--max:1200px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--cream);font-family:var(--fb);line-height:1.6;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font-family:var(--fb)}
+input,textarea,select{font-family:var(--fb)}
+body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.5}
+.c{max-width:var(--max);margin:0 auto;padding:0 28px}
+.sec{padding:100px 0}
+h1,h2,h3,h4{font-family:var(--fh);line-height:1.1}
+.st{font-family:var(--fh);font-size:clamp(2.2rem,4.5vw,3.8rem);text-transform:uppercase;letter-spacing:.05em}
+.gl{width:56px;height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin:10px 0 36px}
+.gl.cx{margin:10px auto 36px}
+.tag{font-size:.72rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:var(--r);font-weight:600;font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;transition:all .3s ease;cursor:pointer}
+.bp{background:var(--gold);color:#000}
+.bp:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 14px 42px rgba(201,168,76,.3)}
+.bo{border:1px solid var(--gold);color:var(--gold)}
+.bo:hover{background:rgba(201,168,76,.08);transform:translateY(-2px)}
+.bsm{padding:10px 20px;font-size:.78rem}
+.bdark{background:rgba(201,168,76,.12);color:var(--gold);border:1px solid var(--border)}
+.bdark:hover{background:rgba(201,168,76,.2)}
+
+/* NAVBAR */
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;height:var(--nav);display:flex;align-items:center;transition:background .4s,border-color .4s}
+#nav.sc{background:rgba(8,8,8,.96);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.ni{display:flex;align-items:center;justify-content:space-between;width:100%}
+.nl{font-family:var(--fh);font-size:1.7rem;letter-spacing:.18em;color:var(--cream)}
+.nl em{color:var(--gold);font-style:normal}
+.nm{display:flex;align-items:center;gap:36px;list-style:none}
+.nm a{font-size:.78rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.nm a:hover{color:var(--cream)}
+.hb{display:none;flex-direction:column;gap:5px;padding:8px;z-index:10}
+.hb span{display:block;width:24px;height:1.5px;background:var(--cream);transition:all .3s}
+.hb.on span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hb.on span:nth-child(2){opacity:0}
+.hb.on span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mm{display:none;position:fixed;inset:0;top:var(--nav);background:rgba(8,8,8,.98);backdrop-filter:blur(20px);z-index:850;flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.mm.on{display:flex}
+.mm a{font-family:var(--fh);font-size:2.3rem;letter-spacing:.1em;color:var(--muted);transition:color .2s}
+.mm a:hover{color:var(--gold)}
+
+/* HERO */
+#hero{position:relative;height:100vh;min-height:680px;display:flex;align-items:center;overflow:hidden}
+.hbg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.06);transition:transform .1s linear}
+.hov{position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,8,8,.93) 0%,rgba(8,8,8,.65) 60%,rgba(8,8,8,.88) 100%)}
+.hc{position:relative;z-index:2;padding-top:var(--nav)}
+.hey{font-size:.72rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.ht{font-family:var(--fh);font-size:clamp(5rem,14vw,12rem);line-height:.9;letter-spacing:-.01em;color:var(--cream);text-transform:uppercase}
+.ht em{color:var(--gold);font-style:normal}
+.htg{font-size:clamp(.95rem,2vw,1.25rem);color:var(--muted);margin:18px 0 36px;font-weight:300;max-width:480px}
+.htg strong{color:var(--cream);font-weight:400}
+.ha{display:flex;gap:14px;flex-wrap:wrap}
+.hscroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;animation:sb 2.5s ease-in-out infinite}
+.hscroll-line{width:1px;height:44px;background:linear-gradient(var(--gold),transparent)}
+@keyframes sb{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* SERVICES */
+#servicios{background:var(--bg2)}
+.sh{text-align:center}
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:22px;margin-top:0}
+.sc2{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:30px;transition:all .35s ease;position:relative;overflow:hidden}
+.sc2::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .35s ease}
+.sc2:hover::before{transform:scaleX(1)}
+.sc2:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px);box-shadow:0 22px 64px rgba(0,0,0,.45)}
+.si{width:44px;height:44px;margin-bottom:18px;color:var(--gold)}
+.sn{font-family:var(--fh);font-size:1.45rem;letter-spacing:.05em;color:var(--cream);margin-bottom:7px}
+.sd{font-size:.88rem;color:var(--muted);margin-bottom:20px;line-height:1.55}
+.sf{display:flex;align-items:center;justify-content:space-between}
+.sp{font-size:1.25rem;font-weight:600;color:var(--gold)}
+.sp small{font-size:.72rem;font-weight:400;color:var(--muted);display:block}
+
+/* BOOKING */
+#turnos{background:var(--bg)}
+.bw{max-width:800px;margin:0 auto}
+.pb{display:flex;align-items:center;margin-bottom:44px;position:relative}
+.pb::before{content:'';position:absolute;top:50%;left:18px;right:18px;height:1px;background:var(--bg3);transform:translateY(-50%);z-index:0}
+.pf{position:absolute;top:50%;left:18px;height:1px;background:var(--gold);transform:translateY(-50%);z-index:1;transition:width .45s ease}
+.sd2{width:36px;height:36px;min-width:36px;border-radius:50%;border:1px solid var(--bg3);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:500;color:var(--muted);position:relative;z-index:2;transition:all .3s ease;flex:1;justify-content:center}
+.sd2:first-child,.sd2:last-child{flex:0 0 36px}
+.sd2.act{background:var(--gold);color:#000;border-color:var(--gold);box-shadow:0 0 24px rgba(201,168,76,.35)}
+.sd2.dn{background:rgba(201,168,76,.12);color:var(--gold);border-color:rgba(201,168,76,.35)}
+.stepcont{display:none;animation:fu .4s ease}
+.stepcont.act{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.stit{font-family:var(--fh);font-size:1.75rem;color:var(--cream);margin-bottom:6px;letter-spacing:.05em}
+.ssub{color:var(--muted);font-size:.88rem;margin-bottom:26px}
+.sopts{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.sopt{padding:18px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all .25s ease}
+.sopt:hover{border-color:rgba(201,168,76,.5)}
+.sopt.sel{border-color:var(--gold);background:rgba(201,168,76,.07)}
+.son{font-weight:600;font-size:.9rem;color:var(--cream);margin-bottom:4px}
+.sop{font-size:.82rem;color:var(--gold)}
+.bopts{display:flex;gap:18px;flex-wrap:wrap}
+.bopt{display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:all .25s ease;flex:1;min-width:130px}
+.bopt:hover{border-color:rgba(201,168,76,.5)}
+.bopt.sel{border-color:var(--gold);background:rgba(201,168,76,.07)}
+.bav{width:66px;height:66px;border-radius:50%;background:var(--bg2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:1.6rem;color:var(--gold);overflow:hidden}
+.bav img{width:100%;height:100%;object-fit:cover}
+.bon{font-weight:600;font-size:.88rem;color:var(--cream)}
+.bot{font-size:.75rem;color:var(--muted)}
+.calw{background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;max-width:420px}
+.calh{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border)}
+.calt{font-family:var(--fh);font-size:1.25rem;letter-spacing:.05em;text-transform:capitalize}
+.cnb{width:34px;height:34px;border:1px solid var(--border);border-radius:6px;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.cnb:hover{color:var(--gold);border-color:var(--gold)}
+.cwd{display:grid;grid-template-columns:repeat(7,1fr);padding:10px 22px 6px;gap:3px}
+.cwd span{text-align:center;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cdays{display:grid;grid-template-columns:repeat(7,1fr);padding:0 22px 22px;gap:3px}
+.cd{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:.88rem;cursor:pointer;transition:all .2s;color:var(--cream)}
+.cd:hover:not(.dis):not(.emp){background:rgba(201,168,76,.14);color:var(--gold)}
+.cd.sel{background:var(--gold);color:#000;font-weight:600}
+.cd.tod{border:1px solid rgba(201,168,76,.4)}
+.cd.dis{color:rgba(255,255,255,.15);cursor:not-allowed}
+.cd.emp{cursor:default}
+.tslots{display:flex;flex-wrap:wrap;gap:10px}
+.ts{padding:10px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);font-size:.88rem;color:var(--cream);cursor:pointer;transition:all .2s}
+.ts:hover:not(.tk){border-color:var(--gold);color:var(--gold)}
+.ts.sel{background:var(--gold);color:#000;border-color:var(--gold);font-weight:600}
+.ts.tk{color:var(--muted);background:transparent;border-color:rgba(255,255,255,.05);cursor:not-allowed;text-decoration:line-through;opacity:.45}
+.ff{margin-bottom:18px}
+.fl{display:block;font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.fi{width:100%;padding:13px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);color:var(--cream);font-size:.95rem;transition:border-color .2s}
+.fi:focus{outline:none;border-color:var(--gold)}
+.fi::placeholder{color:var(--muted)}
+.ccard{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:22px}
+.crow{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.92rem}
+.crow:last-child{border:none}
+.crl{color:var(--muted)}
+.crv{color:var(--cream);font-weight:500}
+.succ{text-align:center;padding:40px 0}
+.sico{width:76px;height:76px;border-radius:50%;background:rgba(201,168,76,.1);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;color:var(--gold)}
+.stitl{font-family:var(--fh);font-size:2.5rem;color:var(--cream);margin-bottom:10px;letter-spacing:.05em}
+.ssub2{color:var(--muted);margin-bottom:30px;font-size:1rem}
+.succ-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.bnav{display:flex;justify-content:space-between;margin-top:30px;gap:12px}
+
+/* GALLERY */
+#galeria{background:var(--bg2)}
+.gg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gi{position:relative;overflow:hidden;border-radius:8px;aspect-ratio:1;cursor:pointer}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .55s ease}
+.gi:hover img{transform:scale(1.09)}
+.gi::after{content:'';position:absolute;inset:0;background:rgba(8,8,8,.38);opacity:0;transition:opacity .3s}
+.gi:hover::after{opacity:1}
+.gm{display:none}
+.gm.exp{display:contents}
+.gf{text-align:center;margin-top:36px}
+
+/* ABOUT */
+#nosotros{background:var(--bg)}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.aiw{position:relative}
+.ai{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px}
+.aid{position:absolute;bottom:-22px;right:-22px;width:68%;height:68%;border:1px solid var(--border);border-radius:12px;z-index:-1}
+.al{font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.at{color:rgba(245,240,232,.72);line-height:1.85;margin-bottom:18px;font-size:.95rem}
+.sr{display:flex;gap:36px;margin-top:36px;padding-top:36px;border-top:1px solid var(--border)}
+.snum{font-family:var(--fh);font-size:3rem;color:var(--gold);line-height:1}
+.slb{font-size:.78rem;color:var(--muted);margin-top:4px}
+
+/* CONTACT */
+#contacto{background:var(--bg2)}
+.ctg{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.ci{display:flex;gap:18px;align-items:flex-start;margin-bottom:28px}
+.cic{width:42px;height:42px;min-width:42px;background:rgba(201,168,76,.1);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.cit{font-weight:600;font-size:.88rem;color:var(--cream);margin-bottom:3px}
+.citx{font-size:.88rem;color:var(--muted);line-height:1.55}
+.wab{display:flex;align-items:center;gap:14px;padding:18px 24px;background:linear-gradient(135deg,#25D366,#128C7E);border-radius:12px;color:#fff;font-weight:600;font-size:.95rem;margin-bottom:22px;transition:all .3s}
+.wab:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(37,211,102,.3)}
+.sl{display:flex;gap:10px;margin-top:22px}
+.slk{width:42px;height:42px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s}
+.slk:hover{color:var(--gold);border-color:var(--gold)}
+
+/* FOOTER */
+footer{background:#050505;border-top:1px solid var(--border);padding:60px 0 28px}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;margin-bottom:44px}
+.flo{font-family:var(--fh);font-size:1.9rem;letter-spacing:.15em;color:var(--cream);margin-bottom:10px}
+.flo em{color:var(--gold);font-style:normal}
+.ftg{font-size:.85rem;color:var(--muted);margin-bottom:18px}
+.fct{font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.fl2{list-style:none;display:flex;flex-direction:column;gap:9px}
+.fl2 a{font-size:.88rem;color:var(--muted);transition:color .2s}
+.fl2 a:hover{color:var(--cream)}
+.fb{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top:1px solid rgba(255,255,255,.05);font-size:.78rem;color:rgba(255,255,255,.22)}
+.gold-div{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold) 40%,var(--gold) 60%,transparent);opacity:.25}
+
+/* WA BUBBLE */
+.wa{position:fixed;bottom:30px;right:30px;z-index:800;width:54px;height:54px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(37,211,102,.4);cursor:pointer;transition:all .3s;animation:wf 3.2s ease-in-out infinite}
+.wa:hover{transform:scale(1.12)!important;box-shadow:0 12px 40px rgba(37,211,102,.55);animation:none}
+@keyframes wf{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* CUSTOMIZER removed - config now in Admin Panel */
+.cptab{padding:11px 14px;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+.cptab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.cpb{flex:1;overflow-y:auto;padding:22px}
+.cpb::-webkit-scrollbar{width:4px}
+.cpb::-webkit-scrollbar-track{background:transparent}
+.cpb::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.cpsec{font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;margin-top:22px}
+.cpsec:first-child{margin-top:0}
+.cpf{margin-bottom:14px}
+.cpl{display:block;font-size:.78rem;color:var(--muted);margin-bottom:6px}
+.cpin{width:100%;padding:9px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);color:var(--cream);font-size:.88rem;transition:border-color .2s}
+.cpin:focus{outline:none;border-color:var(--gold)}
+.cpin::placeholder{color:var(--muted)}
+.presets{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.preset{width:30px;height:30px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s}
+.preset.on{border-color:#fff;transform:scale(1.15)}
+.fopts{display:flex;flex-direction:column;gap:7px}
+.fopt{padding:9px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all .2s}
+.fopt:hover,.fopt.on{border-color:var(--gold);color:var(--gold)}
+.fon{font-size:.85rem;font-weight:500}
+.fop{font-size:.72rem;color:var(--muted)}
+.csli{padding:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.csli-info{flex:1}
+.csli-nm{font-size:.88rem;font-weight:500;color:var(--cream)}
+.csli-pr{font-size:.78rem;color:var(--gold)}
+.csli-acts{display:flex;gap:5px;flex-shrink:0}
+.ib{width:28px;height:28px;border:1px solid var(--border);border-radius:4px;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.72rem;transition:all .2s}
+.ib:hover{color:var(--cream);border-color:rgba(255,255,255,.3)}
+.ib.del:hover{color:#ff6b6b;border-color:#ff6b6b}
+.add-btn{width:100%;padding:10px;background:rgba(201,168,76,.08);border:1px dashed var(--border);border-radius:var(--r);color:var(--gold);font-size:.82rem;cursor:pointer;transition:all .2s;margin-top:4px}
+.add-btn:hover{background:rgba(201,168,76,.14)}
+.cpfoot{padding:18px 22px;border-top:1px solid var(--border);flex-shrink:0}
+.cpsave{width:100%;padding:13px;background:var(--gold);color:#000;border:none;border-radius:var(--r);font-family:var(--fb);font-weight:600;font-size:.88rem;letter-spacing:.06em;cursor:pointer;transition:all .2s}
+.cpsave:hover{background:var(--gold2)}
+
+/* MODAL */
+.mdo{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1100;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:20px}
+.mdo.on{display:flex}
+.md{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:440px}
+.mdt{font-family:var(--fh);font-size:1.45rem;color:var(--cream);margin-bottom:22px;letter-spacing:.05em}
+.mdf{display:flex;gap:10px;margin-top:22px;justify-content:flex-end}
+
+/* REVEAL */
+/* ── REVEAL ANIMATIONS ── */
+.rev{opacity:0;transform:translateY(32px);transition:opacity .75s cubic-bezier(.4,0,.2,1),transform .75s cubic-bezier(.4,0,.2,1)}
+.rev.vis{opacity:1;transform:translateY(0)}
+/* Directional variants */
+.rev-left{opacity:0;transform:translateX(-36px);transition:opacity .75s cubic-bezier(.4,0,.2,1),transform .75s cubic-bezier(.4,0,.2,1)}
+.rev-left.vis{opacity:1;transform:translateX(0)}
+.rev-right{opacity:0;transform:translateX(36px);transition:opacity .75s cubic-bezier(.4,0,.2,1),transform .75s cubic-bezier(.4,0,.2,1)}
+.rev-right.vis{opacity:1;transform:translateX(0)}
+.rev-scale{opacity:0;transform:scale(.94);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+.rev-scale.vis{opacity:1;transform:scale(1)}
+/* Stagger delays */
+.rev.d1,.rev-left.d1,.rev-right.d1,.rev-scale.d1{transition-delay:.08s}
+.rev.d2,.rev-left.d2,.rev-right.d2,.rev-scale.d2{transition-delay:.16s}
+.rev.d3,.rev-left.d3,.rev-right.d3,.rev-scale.d3{transition-delay:.24s}
+.rev.d4,.rev-left.d4,.rev-right.d4,.rev-scale.d4{transition-delay:.32s}
+.rev.d5,.rev-scale.d5{transition-delay:.40s}
+.rev.d6,.rev-scale.d6{transition-delay:.48s}
+
+/* ═══ ADMIN LOGIN MODAL ═══ */
+.admin-login-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px)}
+.admin-login-overlay.on{display:flex}
+.admin-login-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:400px;position:relative;animation:fu .4s ease}
+.admin-login-close{position:absolute;top:1rem;right:1rem;width:30px;height:30px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:all .2s}
+.admin-login-close:hover{color:var(--cream)}
+.admin-login-logo{font-family:var(--fh);font-size:2rem;letter-spacing:.18em;text-align:center;margin-bottom:.25rem}
+.admin-login-logo em{color:var(--gold);font-style:normal}
+.admin-login-sub{text-align:center;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem}
+.admin-login-err{color:#ff6b6b;font-size:.8rem;text-align:center;margin-top:.5rem;display:none}
+.admin-login-attempts{font-size:.72rem;color:var(--muted);text-align:center;margin-top:.4rem}
+.admin-btn-link{background:none;border:none;color:var(--muted);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;font-family:var(--fb);transition:color .2s;padding:4px 8px;border-radius:4px}
+.admin-btn-link:hover{color:var(--gold)}
+
+/* ═══ ADMIN PANEL ═══ */
+#admin-panel{display:none;position:fixed;inset:0;z-index:1500;background:var(--bg);overflow-y:auto}
+#admin-panel.on{display:block}
+.apnav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:10}
+.apnav-logo{font-family:var(--fh);font-size:1.4rem;letter-spacing:.15em}
+.apnav-logo em{color:var(--gold);font-style:normal}
+.apnav-sub{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);display:block;font-family:var(--fb)}
+.aptabs{display:flex;gap:4px}
+.aptab{padding:8px 18px;border-radius:6px;font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .2s;border:1px solid transparent;font-family:var(--fb)}
+.aptab.on{background:var(--gold);color:#000;border-color:var(--gold)}
+.aptab:hover:not(.on){color:var(--gold);border-color:var(--border)}
+.ap-back{padding:8px 14px;border-radius:6px;background:rgba(201,168,76,.1);border:1px solid var(--border);color:var(--gold);font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;transition:all .2s;white-space:nowrap;font-family:var(--fb);cursor:pointer}
+.ap-back:hover{background:rgba(201,168,76,.2)}
+.ap-logout{padding:8px 16px;border:1px solid rgba(255,80,80,.3);color:#ff6b6b;border-radius:6px;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:var(--fb);background:transparent;white-space:nowrap}
+.ap-logout:hover{background:rgba(255,80,80,.1)}
+/* ── SYNC INDICATOR ── */
+.sync-ind{font-size:.7rem;letter-spacing:.08em;padding:4px 10px;border-radius:4px;transition:all .3s;font-family:var(--fb);white-space:nowrap;opacity:0}
+.sync-ind.ok{color:#4ade80;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.2);opacity:1}
+.sync-ind.err{color:#f87171;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);opacity:1}
+.apcontent{padding:2rem;max-width:1200px;margin:0 auto}
+.apsec{display:none}
+.apsec.on{display:block}
+
+/* ADMIN STATS */
+.apstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem}
+.apstat{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1.4rem}
+.apstat-label{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.apstat-val{font-family:var(--fh);font-size:2.2rem;color:var(--gold);line-height:1}
+.apstat-sub{font-size:.72rem;color:var(--muted);margin-top:.3rem}
+
+/* ADMIN TABLE */
+.aptable-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.8rem}
+.aptable-title{font-family:var(--fh);font-size:1.5rem;letter-spacing:.05em}
+.aptable-controls{display:flex;gap:.6rem;flex-wrap:wrap}
+.apctrl{background:var(--bg3);border:1px solid var(--border);color:var(--muted);padding:7px 14px;border-radius:6px;font-size:.75rem;cursor:pointer;font-family:var(--fb);transition:all .2s;letter-spacing:.05em}
+.apctrl:hover,.apctrl.on{color:var(--gold);border-color:var(--border)}
+.apctrl.on{color:var(--gold)}
+.apsearch{background:var(--bg3);border:1px solid var(--border);color:var(--cream);padding:7px 12px;border-radius:6px;font-size:.78rem;outline:none;font-family:var(--fb);width:180px;transition:border-color .2s}
+.apsearch:focus{border-color:var(--gold)}
+.aptw{background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:auto}
+.aptw table{width:100%;border-collapse:collapse;min-width:700px}
+.aptw thead tr{border-bottom:1px solid var(--border)}
+.aptw th{padding:12px 16px;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:500;cursor:pointer;white-space:nowrap;user-select:none}
+.aptw th:hover{color:var(--gold)}
+.aptw tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
+.aptw tbody tr:hover{background:rgba(201,168,76,.04)}
+.aptw tbody tr:last-child{border:none}
+.aptw td{padding:13px 16px;font-size:.85rem;vertical-align:middle}
+.abadge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:600;letter-spacing:.05em}
+.abadge-pend{background:rgba(250,204,21,.1);color:#facc15;border:1px solid rgba(250,204,21,.2)}
+.abadge-done{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
+.abadge-cancel{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)}
+.aacts{display:flex;gap:5px;flex-wrap:wrap}
+.aact{padding:6px 12px;border-radius:4px;font-size:.72rem;cursor:pointer;font-family:var(--fb);border:1px solid;transition:all .2s;font-weight:500;background:transparent;min-height:32px;touch-action:manipulation}
+.aact-done{color:#4ade80;border-color:rgba(34,197,94,.3)}
+.aact-done:hover{background:rgba(34,197,94,.1)}
+.aact-del{color:#f87171;border-color:rgba(239,68,68,.3)}
+.aact-del:hover{background:rgba(239,68,68,.1)}
+.apempty{text-align:center;padding:4rem 2rem;color:var(--muted)}
+.apempty-ico{font-size:2.5rem;margin-bottom:1rem;opacity:.3}
+
+/* ADMIN GALLERY */
+.apgal-upload{border:2px dashed var(--border);border-radius:10px;padding:2.5rem;text-align:center;cursor:pointer;transition:all .3s;margin-bottom:1.5rem}
+.apgal-upload:hover{border-color:var(--gold);background:rgba(201,168,76,.04)}
+.apgal-upload input{display:none}
+.apgal-upload-ico{font-size:2rem;color:var(--gold);opacity:.6;margin-bottom:.5rem}
+.apgal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
+.apgal-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;overflow:hidden;position:relative;aspect-ratio:1}
+.apgal-item img{width:100%;height:100%;object-fit:cover}
+.apgal-actions{position:absolute;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;transition:opacity .2s}
+.apgal-item:hover .apgal-actions{opacity:1}
+.apgal-btn{padding:6px 12px;border-radius:4px;font-size:.72rem;font-weight:600;cursor:pointer;border:none;transition:all .2s;font-family:var(--fb)}
+.apgal-btn-change{background:var(--gold);color:#000}
+.apgal-btn-del{background:#ef4444;color:#fff}
+.apgal-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--muted);font-size:.75rem}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:3000;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:8px}
+.toast{background:var(--bg3);border:1px solid var(--border);color:var(--cream);padding:11px 22px;border-radius:var(--r);font-size:.85rem;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.ok{border-color:rgba(34,197,94,.4);color:#4ade80}
+.toast.err{border-color:rgba(239,68,68,.4);color:#f87171}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .ag{grid-template-columns:1fr;gap:40px}
+  .aid{display:none}
+  .ctg{grid-template-columns:1fr;gap:40px}
+  .fg{grid-template-columns:1fr 1fr;gap:32px}
+  .gg{grid-template-columns:repeat(2,1fr)}
+  .aptabs{gap:2px}
+  .aptab{padding:6px 10px;font-size:.68rem}
+}
+@media(max-width:640px){
+  .nm,.nav-cta-wrap{display:none}
+  .hb{display:flex}
+  .ht{font-size:clamp(4rem,18vw,8rem)}
+  .ha{flex-direction:column}
+  .ha .btn{justify-content:center}
+  .sec{padding:70px 0}
+  .gg{grid-template-columns:repeat(2,1fr);gap:8px}
+  .fg{grid-template-columns:1fr}
+  .bnav{flex-direction:column-reverse}
+  .sr{flex-direction:column;gap:20px}
+  .succ-actions{flex-direction:column}
+  .cp{width:100%;right:-100%}
+  .apnav{padding:0 1rem;flex-wrap:wrap;height:auto;padding:10px 1rem;gap:8px}
+  .aptabs{overflow-x:auto;width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<!-- NAVBAR -->
+<nav id="nav">
+  <div class="c ni">
+    <a class="nl" href="#hero"><span id="nav-name">WEST</span><em id="nav-name-em">I</em></a>
+    <ul class="nm">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#turnos">Turnos</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <div class="nav-cta-wrap" style="display:flex;align-items:center;gap:10px;margin-left:24px">
+      <a href="#turnos" class="btn bp bsm">Sacar turno</a>
+      <button class="admin-btn-link" onclick="openAdminLogin()" id="admin-nav-btn">Admin</button>
+    </div>
+    <button class="hb" id="hb" aria-label="Menú"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mm" id="mm">
+  <a href="#servicios" onclick="closeMM()">Servicios</a>
+  <a href="#turnos" onclick="closeMM()">Turnos</a>
+  <a href="#galeria" onclick="closeMM()">Galería</a>
+  <a href="#nosotros" onclick="closeMM()">Nosotros</a>
+  <a href="#contacto" onclick="closeMM()">Contacto</a>
+  <a href="#turnos" class="btn bp" style="margin-top:8px" onclick="closeMM()">Sacar turno</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hbg" id="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1600&q=80')"></div>
+  <div class="hov"></div>
+  <div class="c hc">
+    <div class="hey" id="hero-eyebrow">Barbería Premium · Buenos Aires</div>
+    <h1 class="ht" id="hero-title">WEST<em>I</em></h1>
+    <p class="htg" id="hero-tagline">Más que un corte. <strong>Una experiencia.</strong></p>
+    <div class="ha">
+      <a href="#turnos" class="btn bp">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Sacar turno
+      </a>
+      <a href="#servicios" class="btn bo">Ver servicios</a>
+    </div>
+  </div>
+  <div class="hscroll"><div class="hscroll-line"></div>scroll</div>
+</section>
+<div class="gold-div"></div>
+
+<!-- SERVICES -->
+<section id="servicios" class="sec">
+  <div class="c">
+    <div class="sh rev">
+      <div class="tag">Lo que hacemos</div>
+      <h2 class="st">Nuestros Servicios</h2>
+      <div class="gl cx"></div>
+    </div>
+    <div class="sg" id="services-grid"></div>
+  </div>
+</section>
+<div class="gold-div"></div>
+
+<!-- BOOKING -->
+<section id="turnos" class="sec">
+  <div class="c">
+    <div class="rev" style="text-align:center">
+      <div class="tag">Sistema de reservas</div>
+      <h2 class="st">Reservá tu turno</h2>
+      <div class="gl cx"></div>
+    </div>
+    <div class="bw">
+      <div class="pb" id="pb">
+        <div class="pf" id="pf" style="width:0%"></div>
+        <div class="sd2 act" data-s="1">1</div>
+        <div class="sd2" data-s="2">2</div>
+        <div class="sd2" data-s="3">3</div>
+        <div class="sd2" data-s="4">4</div>
+        <div class="sd2" data-s="5">5</div>
+        <div class="sd2" data-s="6">6</div>
+      </div>
+      <!-- Step 1 -->
+      <div class="stepcont act" id="step1">
+        <div class="stit">Elegí tu servicio</div>
+        <p class="ssub">Seleccioná el tratamiento que necesitás</p>
+        <div class="sopts" id="booking-services"></div>
+        <div class="bnav"><div></div><button class="btn bp" onclick="nextStep()">Siguiente →</button></div>
+      </div>
+      <!-- Step 2 -->
+      <div class="stepcont" id="step2">
+        <div class="stit">Elegí tu barbero</div>
+        <p class="ssub">Todos son profesionales certificados</p>
+        <div class="bopts" id="booking-barbers"></div>
+        <div class="bnav">
+          <button class="btn bdark" onclick="prevStep()">← Atrás</button>
+          <button class="btn bp" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div class="stepcont" id="step3">
+        <div class="stit">Elegí la fecha</div>
+        <p class="ssub">Seleccioná un día disponible</p>
+        <div class="calw">
+          <div class="calh">
+            <button class="cnb" onclick="changeMonth(-1)">&#8592;</button>
+            <div class="calt" id="cal-title"></div>
+            <button class="cnb" onclick="changeMonth(1)">&#8594;</button>
+          </div>
+          <div class="cwd"><span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span></div>
+          <div class="cdays" id="cal-days"></div>
+        </div>
+        <div class="bnav">
+          <button class="btn bdark" onclick="prevStep()">← Atrás</button>
+          <button class="btn bp" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+      <!-- Step 4 -->
+      <div class="stepcont" id="step4">
+        <div class="stit">Elegí el horario</div>
+        <p class="ssub" id="step4-sub">Horarios disponibles para tu fecha</p>
+        <div class="tslots" id="time-slots"></div>
+        <div class="bnav">
+          <button class="btn bdark" onclick="prevStep()">← Atrás</button>
+          <button class="btn bp" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+      <!-- Step 5 -->
+      <div class="stepcont" id="step5">
+        <div class="stit">Tus datos</div>
+        <p class="ssub">Solo necesitamos tu nombre y teléfono</p>
+        <div class="ff"><label class="fl">Nombre completo</label><input type="text" class="fi" id="b-name" placeholder="Juan García"></div>
+        <div class="ff"><label class="fl">WhatsApp / Teléfono</label><input type="tel" class="fi" id="b-phone" placeholder="+54 9 11 1234-5678"></div>
+        <div class="ff"><label class="fl">Nota adicional (opcional)</label><textarea class="fi" id="b-note" placeholder="Alguna preferencia o consulta..." style="min-height:80px;resize:vertical"></textarea></div>
+        <div class="bnav">
+          <button class="btn bdark" onclick="prevStep()">← Atrás</button>
+          <button class="btn bp" onclick="nextStep()">Ver resumen →</button>
+        </div>
+      </div>
+      <!-- Step 6 -->
+      <div class="stepcont" id="step6">
+        <div class="stit">Confirmá tu turno</div>
+        <p class="ssub">Revisá los detalles antes de confirmar</p>
+        <div class="ccard">
+          <div class="crow"><span class="crl">Servicio</span><span class="crv" id="cs-svc">—</span></div>
+          <div class="crow"><span class="crl">Barbero</span><span class="crv" id="cs-bar">—</span></div>
+          <div class="crow"><span class="crl">Fecha</span><span class="crv" id="cs-date">—</span></div>
+          <div class="crow"><span class="crl">Horario</span><span class="crv" id="cs-time">—</span></div>
+          <div class="crow"><span class="crl">Cliente</span><span class="crv" id="cs-name">—</span></div>
+          <div class="crow"><span class="crl">Teléfono</span><span class="crv" id="cs-phone">—</span></div>
+        </div>
+        <div class="bnav">
+          <button class="btn bdark" onclick="prevStep()">← Editar</button>
+          <button class="btn bp" onclick="confirmBooking()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Confirmar reserva
+          </button>
+        </div>
+      </div>
+      <!-- Success -->
+      <div class="stepcont" id="step-success">
+        <div class="succ">
+          <div class="sico"><svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="stitl">¡Turno reservado!</div>
+          <p class="ssub2" id="succ-msg">Te esperamos. Llegá 5 minutos antes.</p>
+          <div class="succ-actions">
+            <a id="succ-wa" href="#" target="_blank" class="btn bp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Avisarles por WhatsApp
+            </a>
+            <button class="btn bo" onclick="resetBooking()">Reservar otro turno</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="gold-div"></div>
+
+<!-- GALLERY -->
+<section id="galeria" class="sec">
+  <div class="c">
+    <div class="sh rev">
+      <div class="tag">Nuestros trabajos</div>
+      <h2 class="st">Galería</h2>
+      <div class="gl cx"></div>
+    </div>
+    <div class="gg" id="galeria-pub-grid"></div>
+    <div class="gf">
+      <button class="btn bo" id="gallery-btn" onclick="toggleGallery()">Ver más trabajos</button>
+    </div>
+  </div>
+</section>
+<div class="gold-div"></div>
+
+<!-- ABOUT -->
+<section id="nosotros" class="sec">
+  <div class="c ag">
+    <div class="aiw rev">
+      <img class="ai" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80" id="about-img" alt="Barbería Westi" loading="lazy">
+      <div class="aid"></div>
+    </div>
+    <div class="rev d1">
+      <div class="al" id="about-label">Nuestra historia</div>
+      <h2 class="st" id="about-title">Más que una barbería</h2>
+      <div class="gl"></div>
+      <p class="at" id="about-text1">Westi nació de la pasión por el oficio y la convicción de que un buen corte puede cambiarle el día a alguien. Cada cliente que entra por la puerta merece atención personalizada, técnica impecable y un ambiente donde sentirse cómodo.</p>
+      <p class="at" id="about-text2">Con años de experiencia en las mejores barberías de Buenos Aires, traemos un nivel de detalle y cuidado que va más allá del corte. Esto es estilo de vida.</p>
+      <div class="sr">
+        <div class="rev d2"><div class="snum" id="stat1-num">5+</div><div class="slb" id="stat1-label">Años de experiencia</div></div>
+        <div class="rev d3"><div class="snum" id="stat2-num">2k+</div><div class="slb" id="stat2-label">Clientes atendidos</div></div>
+        <div class="rev d4"><div class="snum" id="stat3-num">8k+</div><div class="slb" id="stat3-label">Cortes realizados</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="gold-div"></div>
+
+<!-- CONTACT -->
+<section id="contacto" class="sec">
+  <div class="c">
+    <div class="sh rev">
+      <div class="tag">Comunicate</div>
+      <h2 class="st">Hablá con nosotros</h2>
+      <div class="gl cx"></div>
+    </div>
+    <div class="ctg">
+      <div class="rev">
+        <a class="wab" id="wa-big-btn" href="#" target="_blank" rel="noopener">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Escribinos por WhatsApp
+        </a>
+        <div class="ci"><div class="cic"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><div><div class="cit">Dirección</div><div class="citx" id="addr-text">Av. Corrientes 1234, CABA<br>Buenos Aires, Argentina</div></div></div>
+        <div class="ci"><div class="cic"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="cit">Horarios</div><div class="citx" id="hours-text">Lun – Sáb: 9:00 a 19:30<br>Domingo: cerrado</div></div></div>
+        <div class="ci"><div class="cic"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></div><div><div class="cit">Redes sociales</div><div class="sl" style="margin-top:10px"><a class="slk" id="ig-link" href="#" target="_blank"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a class="slk" id="tt-link" href="#" target="_blank"><svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.67a8.18 8.18 0 004.78 1.53V6.69a4.85 4.85 0 01-1.01-.0z"/></svg></a></div></div></div>
+      </div>
+      <div class="rev d1">
+        <div style="font-family:var(--fh);font-size:1.3rem;letter-spacing:.05em;color:var(--cream);margin-bottom:18px">Envianos un mensaje</div>
+        <div class="ff"><label class="fl">Tu nombre</label><input type="text" class="fi" id="ct-name" placeholder="Juan García"></div>
+        <div class="ff"><label class="fl">Tu consulta</label><textarea class="fi" id="ct-msg" placeholder="¿Tenés alguna pregunta o consulta?" style="min-height:120px;resize:vertical"></textarea></div>
+        <button class="btn bp" style="width:100%;justify-content:center" onclick="sendContact()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Enviar mensaje
+        </button>
+        <div id="ct-ok" style="display:none;margin-top:14px;padding:14px;background:rgba(201,168,76,.1);border:1px solid var(--border);border-radius:var(--r);color:var(--gold);font-size:.88rem">✓ ¡Mensaje enviado! Te respondemos pronto por WhatsApp.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="c">
+    <div class="fg">
+      <div>
+        <div class="flo"><span id="footer-name">WEST</span><em id="footer-name-em">I</em></div>
+        <div class="ftg" id="footer-tagline">Más que un corte. Una experiencia.</div>
+        <div class="sl">
+          <a class="slk" id="footer-ig" href="#" target="_blank"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a class="slk" id="footer-tt" href="#" target="_blank"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.67a8.18 8.18 0 004.78 1.53V6.69a4.85 4.85 0 01-1.01-.0z"/></svg></a>
+          <a class="slk" id="footer-wa" href="#" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="fct">Navegación</div>
+        <ul class="fl2"><li><a href="#servicios">Servicios</a></li><li><a href="#turnos">Reservar turno</a></li><li><a href="#galeria">Galería</a></li><li><a href="#nosotros">Nosotros</a></li><li><a href="#contacto">Contacto</a></li></ul>
+      </div>
+      <div>
+        <div class="fct">Contacto</div>
+        <ul class="fl2"><li><a id="footer-addr" href="#">Av. Corrientes 1234</a></li><li><a id="footer-hrs">Lun–Sáb: 9–19:30</a></li><li><a id="footer-walink" href="#" target="_blank">WhatsApp</a></li></ul>
+      </div>
+    </div>
+    <div class="fb"><span id="footer-copy">© 2025 Westi Barbería. Todos los derechos reservados.</span><span>Hecho con ♥ en Buenos Aires</span></div>
+  </div>
+</footer>
+
+<!-- WA BUBBLE -->
+<a class="wa" id="wa-bubble" href="#" target="_blank" rel="noopener" title="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- Customizer removed: all configuration is now in Admin Panel -->
+
+<!-- SERVICE/BARBER MODAL -->
+<div class="mdo" id="modal">
+  <div class="md">
+    <div class="mdt" id="modal-title">Editar servicio</div>
+    <div id="modal-body"></div>
+    <div class="mdf">
+      <button class="btn bdark bsm" onclick="closeModal()">Cancelar</button>
+      <button class="btn bp bsm" onclick="saveModal()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     ADMIN LOGIN MODAL
+═══════════════════════════════════ -->
+<div class="admin-login-overlay" id="admin-login-overlay">
+  <div class="admin-login-box">
+    <button class="admin-login-close" onclick="closeAdminLogin()">✕</button>
+    <div class="admin-login-logo">WEST<em>I</em></div>
+    <div class="admin-login-sub">Panel de Administración</div>
+    <div style="margin-bottom:14px">
+      <label class="fl">Usuario</label>
+      <input type="text" class="fi" id="al-user" placeholder="Usuario" autocomplete="username" onkeydown="if(event.key==='Enter')tryLogin()">
+    </div>
+    <div style="margin-bottom:10px">
+      <label class="fl">Contraseña</label>
+      <input type="password" class="fi" id="al-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')tryLogin()">
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;margin-top:4px">
+      <input type="checkbox" id="al-remember" style="width:16px;height:16px;accent-color:var(--gold);cursor:pointer" checked>
+      <label for="al-remember" style="font-size:.78rem;color:var(--muted);cursor:pointer;user-select:none">Mantener sesión iniciada</label>
+    </div>
+    <div class="admin-login-err" id="al-err">Usuario o contraseña incorrectos</div>
+    <div class="admin-login-attempts" id="al-attempts"></div>
+    <button class="btn bp" style="width:100%;justify-content:center;margin-top:1.2rem" onclick="tryLogin()">Ingresar al panel</button>
+  </div>
+</div>
+
+<!-- CONFIRM DIALOG (reemplaza confirm() nativo para mobile) -->
+<div id="confirm-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:3500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:20px">
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:380px;text-align:center">
+    <div id="confirm-msg" style="font-size:1rem;color:var(--cream);margin-bottom:22px;line-height:1.5"></div>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn bdark bsm" onclick="confirmResolve(false)">Cancelar</button>
+      <button class="btn bsm" id="confirm-ok-btn" style="background:#ef4444;color:#fff;padding:10px 24px;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;border-radius:var(--r)" onclick="confirmResolve(true)">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     ADMIN PANEL
+═══════════════════════════════════ -->
+<div id="admin-panel">
+  <nav class="apnav">
+    <div>
+      <div class="apnav-logo">WEST<em>I</em></div>
+      <span class="apnav-sub">Panel de Administración · <span id="ap-user-label" style="color:var(--gold)"></span></span>
+    </div>
+    <div class="aptabs" id="ap-tabs-container">
+      <button class="aptab on" id="aptab-turnos" onclick="apSwitchTab('turnos',this)">📋 Turnos</button>
+      <button class="aptab" id="aptab-galeria" onclick="apSwitchTab('galeria',this)">🖼️ Galería</button>
+      <button class="aptab" id="aptab-personalizacion" onclick="apSwitchTab('personalizacion',this)">⚙️ Personalización</button>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
+      <span id="sync-indicator" class="sync-ind"></span>
+      <button class="ap-back" id="cloud-cfg-btn" onclick="showCloudSetup()" title="Configurar almacenamiento en la nube" style="display:none">☁ Configurar Cloud</button>
+      <button class="ap-back" onclick="exitAdminPanel()" title="Volver al sitio sin cerrar sesión">← Salir del panel</button>
+      <button class="ap-logout" onclick="adminLogout()">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <div class="apcontent">
+    <!-- Stats siempre visibles -->
+    <div class="apstats" id="apstats"></div>
+
+    <!-- Sección Turnos -->
+    <div class="apsec on" id="apsec-turnos">
+      <div class="aptable-header">
+        <h2 class="aptable-title">Turnos Reservados</h2>
+        <div class="aptable-controls">
+          <input class="apsearch" id="ap-search" placeholder="Buscar cliente..." oninput="renderAdminTable()">
+          <button class="apctrl on" id="apf-all" onclick="apFilter('all',this)">Todos</button>
+          <button class="apctrl" id="apf-pend" onclick="apFilter('pendiente',this)">Pendientes</button>
+          <button class="apctrl" id="apf-done" onclick="apFilter('completado',this)">Completados</button>
+          <button class="apctrl" id="ap-sort" onclick="apToggleSort()">Fecha ↕</button>
+        </div>
+      </div>
+      <div class="aptw">
+        <table>
+          <thead>
+            <tr>
+              <th onclick="apSortCol('nombre')">Cliente ↕</th>
+              <th onclick="apSortCol('telefono')">Teléfono ↕</th>
+              <th onclick="apSortCol('servicio')">Servicio ↕</th>
+              <th onclick="apSortCol('barbero')">Barbero ↕</th>
+              <th onclick="apSortCol('fecha')">Fecha ↕</th>
+              <th onclick="apSortCol('hora')">Hora ↕</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="ap-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Sección Galería Admin -->
+    <div class="apsec" id="apsec-galeria">
+      <h2 class="aptable-title" style="margin-bottom:1.5rem">Gestión de Imágenes</h2>
+      <div class="apgal-upload" onclick="document.getElementById('apgal-input').click()">
+        <input type="file" id="apgal-input" accept="image/*" multiple onchange="apHandleUpload(event)">
+        <div class="apgal-upload-ico">📁</div>
+        <p style="font-weight:600;margin-top:.4rem">Subir nuevas imágenes</p>
+        <p style="color:var(--muted);font-size:.82rem;margin-top:.3rem">Hacé clic o arrastrá imágenes aquí · JPG, PNG, WEBP</p>
+      </div>
+      <div class="apgal-grid" id="apgal-grid"></div>
+    </div>
+
+    <!-- Sección Personalización (contenido de la Tuerquita) -->
+    <div class="apsec" id="apsec-personalizacion">
+      <h2 class="aptable-title" style="margin-bottom:.5rem">Personalización del Sitio</h2>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:1.5rem">Todos los cambios se guardan automáticamente en tiempo real.</p>
+
+      <!-- Sub-tabs de personalización -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:1rem" id="ap-pers-tabs">
+        <button class="apctrl on" id="apt-marca" onclick="apPersTab('marca',this)">🏷️ Marca</button>
+        <button class="apctrl" id="apt-imagen" onclick="apPersTab('imagen',this)">🖼️ Imagen Hero</button>
+        <button class="apctrl" id="apt-colores" onclick="apPersTab('colores',this)">🎨 Colores</button>
+        <button class="apctrl" id="apt-tipografia" onclick="apPersTab('tipografia',this)">🔤 Tipografía</button>
+        <button class="apctrl" id="apt-servicios" onclick="apPersTab('servicios',this)">✂️ Servicios</button>
+        <button class="apctrl" id="apt-barberos" onclick="apPersTab('barberos',this)">👤 Barberos</button>
+        <button class="apctrl" id="apt-contacto" onclick="apPersTab('contacto',this)">📞 Contacto</button>
+        <button class="apctrl" id="apt-nube" onclick="apPersTab('nube',this)">☁️ Nube / Base de Datos</button>
+      </div>
+
+      <!-- Contenedor del sub-tab activo -->
+      <div id="ap-pers-body" style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1.5rem;max-width:700px"></div>
+
+      <div style="margin-top:1rem;max-width:700px">
+        <button class="cpsave" onclick="saveSettings()" style="width:auto;padding:12px 32px">💾 Guardar cambios</button>
+        <span style="color:var(--muted);font-size:.75rem;margin-left:12px">Los cambios en vivo ya están guardados. Este botón confirma y notifica.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     JAVASCRIPT
+════════════════════════════ -->
+<script>
+/* ── ICONS ── */
+const ICONS={cut:`<svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>`,razor:`<svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="5" rx="1"/><path d="M4 8l8 13 8-13"/></svg>`,beard:`<svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/><path d="M9 14s1 2 3 2 3-2 3-2"/></svg>`,combo:`<svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,brow:`<svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10 C6 7, 18 7, 21 10"/><path d="M3 14 C6 11, 18 11, 21 14"/></svg>`,style:`<svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`};
+
+/* ════════════════════════════════════════════════════════════
+   WESTI — CLOUD STORAGE LAYER v2.0
+   • JSONBin.io  → settings, turnos, galería (JSON)
+   • Cloudinary  → imágenes (upload directo desde browser)
+   • localStorage → caché local + fallback offline
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Cloud config ── */
+// BIN PÚBLICO — todos los dispositivos leen de aquí sin configuración local
+const PUBLIC_BIN_ID = '6a26465ff5f4af5e29c92471';
+
+function getCfg(){try{return JSON.parse(localStorage.getItem('westi_cloud_cfg')||'null');}catch(e){return null;}}
+function saveCfg(cfg){
+  localStorage.setItem('westi_cloud_cfg',JSON.stringify(cfg));
+  if(cfg.binId)localStorage.setItem('westi_public_bin',cfg.binId);
+}
+// Admin tiene Master Key → puede escribir
+function hasCfg(){const c=getCfg();return!!(c?.jsonbinKey);}
+// Siempre devuelve el bin correcto — local binId configurado tiene precedencia para poder escribir
+function getPublicBinId(){return localStorage.getItem('westi_public_bin')||getCfg()?.binId||PUBLIC_BIN_ID||'';}
+function canRead(){return!!getPublicBinId();}
+
+/* ── JSONBin helpers ── */
+const JSONBIN_BASE='https://api.jsonbin.io/v3';
+
+// Nunca enviar base64 a JSONBin — solo URLs https://
+function isBase64(s){return typeof s==='string'&&(s.startsWith('data:')||s.length>2000);}
+function safeUrl(s){return(s&&!isBase64(s))?s:'';}
+function stripBase64FromGallery(gal){return gal.map(g=>({...g,url:safeUrl(g.url)}));}
+function safeSettings(s){const copy={...s};return copy;}
+
+// jbGet: lectura pública sin key si el bin es público
+async function jbGet(binId,key){
+  try{
+    const cfg=getCfg();
+    const headers={'X-Bin-Meta':'false'};
+    // Agregar Master Key solo si el admin la tiene (optimiza rate limit)
+    if(cfg?.jsonbinKey)headers['X-Master-Key']=cfg.jsonbinKey;
+    const r=await fetch(`${JSONBIN_BASE}/b/${binId}/latest`,{headers});
+    if(!r.ok)return null;
+    const data=await r.json();
+    return key?data[key]:data;
+  }catch(e){return null;}}
+
+async function jbSet(binId,key,value){
+  try{
+    const cfg=getCfg();
+    if(!cfg?.jsonbinKey){console.warn('[jbSet] No Master Key — solo lectura');return false;}
+    let current={};
+    const r0=await fetch(`${JSONBIN_BASE}/b/${binId}/latest`,{headers:{'X-Master-Key':cfg.jsonbinKey,'X-Bin-Meta':'false'}});
+    if(r0.ok)current=await r0.json();
+    if(key)current[key]=value;else current=value;
+    const body=JSON.stringify(current);
+    console.log('[jbSet] key='+key+' payload:',body.length,'bytes');
+    if(body.length>200000){console.error('[jbSet] ABORTED >200KB:',body.length,'bytes');return false;}
+    const r=await fetch(`${JSONBIN_BASE}/b/${binId}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':cfg.jsonbinKey},body});
+    return r.ok;
+  }catch(e){console.error('[jbSet] error:',e);return false;}
+}
+
+async function createBin(name,initialData){
+  const cfg=getCfg();
+  const body=JSON.stringify(initialData);
+  console.log('[createBin] payload size:',body.length,'bytes');
+  if(body.length>50000){console.error('[createBin] ABORTED >50KB:',body.length,'bytes');return null;}
+  const r=await fetch(`${JSONBIN_BASE}/b`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Master-Key':cfg.jsonbinKey,'X-Bin-Name':name,'X-Bin-Private':'false'},
+    body
+  });
+  if(!r.ok){const t=await r.text().catch(()=>'');console.error('[createBin] HTTP',r.status,t);return null;}
+  const d=await r.json();
+  return d.metadata?.id||null;
+}
+
+/* ── Cloudinary ── */
+// REGLA: solo URLs https:// van a JSONBin. Base64 NUNCA.
+async function uploadToCloudinary(file){
+  const cfg=getCfg();
+  if(!cfg?.cloudName||!cfg?.cloudPreset){
+    // Sin Cloudinary → no podemos guardar imagen de forma persistente y cross-device
+    // Devolvemos null para que el caller muestre un aviso claro
+    return null;
+  }
+  const fd=new FormData();fd.append('file',file);fd.append('upload_preset',cfg.cloudPreset);
+  try{
+    const r=await fetch(`https://api.cloudinary.com/v1_1/${cfg.cloudName}/image/upload`,{method:'POST',body:fd});
+    if(!r.ok){const t=await r.text().catch(()=>'');console.error('Cloudinary error:',r.status,t);return null;}
+    const d=await r.json();
+    return d.secure_url||null;
+  }catch(e){console.error('Cloudinary upload failed:',e);return null;}}
+
+// Fallback local-only: base64 guardado SOLO en localStorage, nunca en JSONBin
+async function uploadLocalOnly(file){
+  return new Promise(res=>{const fr=new FileReader();fr.onload=e=>res(e.target.result);fr.readAsDataURL(file);});}
+
+/* ── Sync engine ── */
+let _syncPending=false;let _syncTimer=null;
+function schedulSync(){_syncPending=true;clearTimeout(_syncTimer);_syncTimer=setTimeout(()=>syncToCloud(),1500);}
+async function syncToCloud(){
+  if(!_syncPending)return;
+  const binId=getPublicBinId();
+  if(!hasCfg()||!binId){_syncPending=false;return;}
+  _syncPending=false;
+  const ok=await jbSet(binId,'settings',S);
+  if(ok){showSyncIndicator('ok');localStorage.setItem('westi_settings',JSON.stringify(S));}
+  else{showSyncIndicator('err');_syncPending=true;}
+}
+function showSyncIndicator(state){
+  let ind=document.getElementById('sync-indicator');if(!ind)return;
+  ind.className='sync-ind '+(state==='ok'?'ok':'err');
+  ind.textContent=state==='ok'?'☁ Guardado':'⚠ Error al guardar';
+  clearTimeout(ind._t);ind._t=setTimeout(()=>{ind.className='sync-ind';ind.textContent='';},3000);}
+function updateSyncStatus(){
+  const ind=document.getElementById('sync-indicator');if(!ind)return;
+  if(hasCfg()){ind.className='sync-ind ok';ind.textContent='☁ Cloud activo';setTimeout(()=>{ind.className='sync-ind';ind.textContent='';},3000);}}
+
+/* ── DEFAULT SETTINGS ── */
+const DEFAULT={name:'WESTI',tagline:'Más que un corte. Una experiencia.',eyebrow:'Barbería Premium · Buenos Aires',colorGold:'#C9A84C',colorBg:'#0A0A0A',colorCream:'#F5F0E8',fontHeading:'Bebas Neue',fontBody:'DM Sans',whatsapp:'5491112345678',address:'Av. Corrientes 1234, CABA\nBuenos Aires, Argentina',hours:'Lun – Sáb: 9:00 a 19:30\nDomingo: cerrado',instagram:'westi_barberia',tiktok:'westi_barberia',aboutTitle:'Más que una barbería',aboutLabel:'Nuestra historia',aboutText1:'Westi nació de la pasión por el oficio y la convicción de que un buen corte puede cambiarle el día a alguien. Cada cliente que entra por la puerta merece atención personalizada, técnica impecable y un ambiente donde sentirse cómodo.',aboutText2:'Con años de experiencia en las mejores barberías de Buenos Aires, traemos un nivel de detalle y cuidado que va más allá del corte. Esto es estilo de vida.',stat1:'5+',stat1l:'Años de experiencia',stat2:'2k+',stat2l:'Clientes atendidos',stat3:'8k+',stat3l:'Cortes realizados',closedDays:[0],openHour:9,closeHour:19,slotMin:30,services:[{id:'s1',name:'Corte Clásico',desc:'Tijera y máquina, corte limpio y preciso a tu estilo.',price:'$3.500',icon:'cut'},{id:'s2',name:'Fade / Degradé',desc:'Transición perfecta de cero a largo. Definición total.',price:'$4.000',icon:'cut'},{id:'s3',name:'Barba Completa',desc:'Perfilado, diseño y afeitado con toalla caliente.',price:'$3.000',icon:'beard'},{id:'s4',name:'Corte + Barba',desc:'El combo completo para lucir impecable de pies a cabeza.',price:'$6.000',icon:'combo'},{id:'s5',name:'Diseño de Cejas',desc:'Perfilado y limpieza para un look definido y prolijo.',price:'$1.500',icon:'brow'},{id:'s6',name:'Keratina Express',desc:'Alisado exprés para pelo rebelde y difícil de manejar.',price:'$5.000',icon:'style'}],barbers:[{id:'b1',name:'Westi',tag:'Fundador & Master Barber',initials:'W'},{id:'b2',name:'Lucas',tag:'Especialista en Fades',initials:'L'},{id:'b3',name:'Mateo',tag:'Barbas & Diseño',initials:'M'}]};
+
+const DEFAULT_GALLERY=[
+  {id:'g1',url:'https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&q=75',label:'Corte 1',type:'wide'},
+  {id:'g2',url:'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=75',label:'Barba',type:'normal'},
+  {id:'g3',url:'https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?w=600&q=75',label:'Fade',type:'normal'},
+  {id:'g4',url:'https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=75',label:'Herramientas',type:'normal'},
+  {id:'g5',url:'https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=600&q=75',label:'Barbería',type:'normal'},
+  {id:'g6',url:'https://images.unsplash.com/photo-1549144511-f099e773c147?w=600&q=75',label:'Fade lateral',type:'normal'},
+  {id:'g7',url:'https://images.unsplash.com/photo-1560066984-138daaa5f8d7?w=600&q=75',label:'Peinado',type:'normal'},
+  {id:'g8',url:'https://images.unsplash.com/photo-1562004760-aceed7bb0fe3?w=600&q=75',label:'Tijeras',type:'normal'},
+  {id:'g9',url:'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&q=75',label:'Moderno',type:'normal'}
+];
+
+/* ── STATE ── */
+let S={};
+let booking={step:1,service:null,barber:null,date:null,time:null,name:'',phone:''};
+let calYear=new Date().getFullYear();
+let calMonth=new Date().getMonth();
+let modalMode='';
+let modalEditId=null;
+let activeTab='marca';
+let apCurrentFilter='all';
+let apCurrentSort={col:'fecha',dir:'asc'};
+let loginAttempts=0;
+
+/* ── STORAGE HELPERS ── */
+async function loadSettings(){
+  const binId=getPublicBinId();
+  console.log('CONFIG LOCAL', getCfg());
+  console.log('BIN UTILIZADO', binId);
+  if(binId){
+    const cloudSettings=await jbGet(binId,'settings');
+    console.log('SETTINGS CLOUD', cloudSettings);
+    if(cloudSettings){
+      S={...DEFAULT,...cloudSettings};
+      localStorage.setItem('westi_settings',JSON.stringify(S));
+      return;
+    }
+  }
+  // Fallback: caché local → DEFAULT
+  try{const s=localStorage.getItem('westi_settings');S=s?{...DEFAULT,...JSON.parse(s)}:{...DEFAULT};}
+  catch(e){S={...DEFAULT};}
+}
+function getTurnos(){try{return JSON.parse(localStorage.getItem('westi_all_turnos')||'[]')}catch(e){return[];}}
+async function saveTurnos(t){
+  localStorage.setItem('westi_all_turnos',JSON.stringify(t));
+  const binId=getPublicBinId();
+  if(hasCfg()&&binId){const ok=await jbSet(binId,'turnos',t);if(ok)showSyncIndicator('ok');else showSyncIndicator('err');}
+}
+function getGallery(){try{const g=localStorage.getItem('westi_gallery');return g?JSON.parse(g):[...DEFAULT_GALLERY];}catch(e){return[...DEFAULT_GALLERY];}}
+async function saveGallery(g){
+  localStorage.setItem('westi_gallery',JSON.stringify(g));
+  const binId=getPublicBinId();
+  if(hasCfg()&&binId){const safeGal=stripBase64FromGallery(g);const ok=await jbSet(binId,'gallery',safeGal);if(ok)showSyncIndicator('ok');else showSyncIndicator('err');}
+}
+function isLoggedIn(){return localStorage.getItem('westi_admin_session')==='active'||sessionStorage.getItem('westi_admin_session')==='active'}
+async function syncTurnosFromCloud(){
+  const binId=getPublicBinId();if(!binId)return;
+  const remote=await jbGet(binId,'turnos');
+  if(remote){localStorage.setItem('westi_all_turnos',JSON.stringify(remote));renderAdminTable();renderAdminStats();}
+}
+async function syncGalleryFromCloud(){
+  const binId=getPublicBinId();if(!binId)return;
+  const remote=await jbGet(binId,'gallery');
+  if(remote){localStorage.setItem('westi_gallery',JSON.stringify(remote));renderPublicGallery();if(canAccess('galeria'))renderAdminGallery();}
+}
+async function loadCloudImages(){
+  const binId=getPublicBinId();if(!binId)return;
+  const imgs=await jbGet(binId,'images');
+  if(!imgs)return;
+  if(imgs.hero&&!isBase64(imgs.hero))localStorage.setItem('westi_hero_img',imgs.hero);
+  if(imgs.about&&!isBase64(imgs.about))localStorage.setItem('westi_about_img',imgs.about);
+}
+
+/* ── TOAST ── */
+function showToast(msg,type=''){
+  const wrap=document.getElementById('toast-wrap');
+  const t=document.createElement('div');
+  t.className='toast'+(type?' '+type:'');
+  t.textContent=msg;
+  wrap.appendChild(t);
+  setTimeout(()=>t.classList.add('show'),10);
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300)},2800);
+}
+
+/* ── DUAL ADMIN AUTH ── */
+const ADMINS={
+  westi88:{pass:'emma88',name:'Westi',perms:['turnos']},
+  agusms7:{pass:'aguslindo1',name:'Agus',perms:['turnos','galeria','personalizacion','imagen']}
+};
+let currentAdmin=null; // 'westi88' | 'agusms7'
+
+function getAdminSession(){
+  return localStorage.getItem('westi_admin_user')||sessionStorage.getItem('westi_admin_user');
+}
+function isLoggedIn(){return!!getAdminSession();}
+function currentUser(){return getAdminSession();}
+function canAccess(section){
+  const u=currentUser();if(!u)return false;
+  return(ADMINS[u]?.perms||[]).includes(section);
+}
+
+function openAdminLogin(){
+  if(isLoggedIn()){openAdminPanel();return;}
+  document.getElementById('admin-login-overlay').classList.add('on');
+  setTimeout(()=>document.getElementById('al-user').focus(),100);
+}
+function closeAdminLogin(){document.getElementById('admin-login-overlay').classList.remove('on')}
+
+function tryLogin(){
+  if(loginAttempts>=5){showToast('Demasiados intentos. Recargá la página.','err');return}
+  const u=document.getElementById('al-user').value.trim().toLowerCase();
+  const p=document.getElementById('al-pass').value;
+  const remember=document.getElementById('al-remember').checked;
+  const errEl=document.getElementById('al-err');
+  const attEl=document.getElementById('al-attempts');
+  const admin=ADMINS[u];
+  if(admin&&p===admin.pass){
+    if(remember){
+      localStorage.setItem('westi_admin_user',u);
+      localStorage.setItem('westi_admin_ts',Date.now().toString());
+    } else {
+      sessionStorage.setItem('westi_admin_user',u);
+    }
+    // Legacy key para compatibilidad
+    if(remember)localStorage.setItem('westi_admin_session','active');
+    else sessionStorage.setItem('westi_admin_session','active');
+    closeAdminLogin();
+    openAdminPanel();
+    document.getElementById('al-user').value='';
+    document.getElementById('al-pass').value='';
+    loginAttempts=0;
+    errEl.style.display='none';
+    attEl.textContent='';
+  } else {
+    loginAttempts++;
+    errEl.style.display='block';
+    const rem=5-loginAttempts;
+    attEl.textContent=rem>0?`Intentos restantes: ${rem}`:'Cuenta bloqueada.';
+    document.getElementById('al-pass').value='';
+    document.getElementById('al-pass').focus();
+  }
+}
+
+function adminLogout(){
+  localStorage.removeItem('westi_admin_session');
+  localStorage.removeItem('westi_admin_user');
+  localStorage.removeItem('westi_admin_ts');
+  sessionStorage.removeItem('westi_admin_session');
+  sessionStorage.removeItem('westi_admin_user');
+  document.getElementById('admin-panel').classList.remove('on');
+  showToast('Sesión cerrada');
+  document.getElementById('admin-nav-btn').textContent='Admin';
+}
+
+function exitAdminPanel(){
+  // Cierra el panel SIN cerrar sesión
+  document.getElementById('admin-panel').classList.remove('on');
+  showToast('Volviste al sitio. Sesión activa ✓');
+}
+
+/* ── ADMIN PANEL ── */
+function openAdminPanel(){
+  if(!isLoggedIn()){openAdminLogin();return}
+  const u=currentUser();
+  const admin=ADMINS[u];
+  document.getElementById('ap-user-label').textContent=admin?.name||u;
+  document.getElementById('admin-nav-btn').textContent='Panel Admin';
+
+  // Mostrar/ocultar tabs según permisos
+  ['galeria','personalizacion'].forEach(sec=>{
+    const tab=document.getElementById('aptab-'+sec);
+    if(tab)tab.style.display=canAccess(sec)?'':'none';
+  });
+  // Tab imagen dentro de personalización: controlado por renderApPersContent
+  // El sub-tab apt-imagen solo aparece si tiene permiso imagen
+
+  document.getElementById('admin-panel').classList.add('on');
+  renderAdminStats();
+  renderAdminTable();
+  syncTurnosFromCloud(); // sync silencioso desde cloud
+  if(canAccess('galeria')){syncGalleryFromCloud();renderAdminGallery();}
+  if(canAccess('personalizacion')){
+    const persBody=document.getElementById('ap-pers-body');
+    if(persBody)renderApPersContent(apActivePersonalizacion,persBody);
+    const activeBtn=document.getElementById('apt-'+apActivePersonalizacion);
+    if(activeBtn)apPersTab(apActivePersonalizacion,activeBtn);
+  }
+  // Asegurar que el primer tab visible esté activo
+  document.querySelectorAll('.apsec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.aptab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('apsec-turnos').classList.add('on');
+  document.getElementById('aptab-turnos').classList.add('on');
+}
+
+function apSwitchTab(sec,btn){
+  // Verificar permiso antes de cambiar
+  if(sec!=='turnos'&&!canAccess(sec)){
+    showToast('Acceso restringido para este usuario.','err');
+    return;
+  }
+  document.querySelectorAll('.apsec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.aptab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('apsec-'+sec).classList.add('on');
+  btn.classList.add('on');
+  if(sec==='personalizacion'){
+    const b=document.getElementById('ap-pers-body');
+    if(b)renderApPersContent(apActivePersonalizacion,b);
+    const activeBtn=document.getElementById('apt-'+apActivePersonalizacion);
+    document.querySelectorAll('#ap-pers-tabs .apctrl').forEach(t=>t.classList.remove('on'));
+    if(activeBtn)activeBtn.classList.add('on');
+  } else if(sec==='galeria'){
+    renderAdminGallery();
+  }
+}
+
+/* ── ADMIN PERSONALIZACIÓN ── */
+let apActivePersonalizacion='marca';
+function apPersTab(tab,btn){
+  apActivePersonalizacion=tab;
+  document.querySelectorAll('#ap-pers-tabs .apctrl').forEach(t=>t.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  // Controlar visibilidad del sub-tab imagen
+  const imgTab=document.getElementById('apt-imagen');
+  if(imgTab)imgTab.style.display=canAccess('imagen')?'':'none';
+  const b=document.getElementById('ap-pers-body');
+  if(!b)return;
+  b.innerHTML='';
+  requestAnimationFrame(()=>renderApPersContent(tab,b));
+}
+
+function renderApPersContent(tab,b){
+  if(tab==='nube'){
+    const cfg = getCfg() || {jsonbinKey:'', binId:'', cloudName:'', cloudPreset:''};
+    const activeBin = getPublicBinId();
+    b.innerHTML = `
+      <div class="cpsec">Base de Datos en la Nube (JSONBin.io)</div>
+      <div class="cpf">
+        <label class="cpl">JSONBin Master Key *</label>
+        <input type="password" class="cpin" id="nube-key" value="${cfg.jsonbinKey||''}" placeholder="Clave Master Key (inicia con $2b$...)">
+      </div>
+      <div class="cpf">
+        <label class="cpl">JSONBin Bin ID Activo *</label>
+        <input type="text" class="cpin" id="nube-bin" value="${cfg.binId || activeBin || ''}" placeholder="ID del Bin en la nube">
+        <span style="font-size:.72rem;color:var(--muted);display:block;margin-top:4px">Bin ID público activo en código: <strong style="color:var(--gold)">${PUBLIC_BIN_ID || 'Ninguno'}</strong></span>
+        <span style="font-size:.72rem;color:var(--muted);display:block;margin-top:2px">Bin ID utilizado actualmente: <strong style="color:var(--gold)">${activeBin || 'Ninguno (Local)'}</strong></span>
+      </div>
+      
+      <div class="cpsec">Sincronización de Imágenes (Cloudinary)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+        <div>
+          <label class="cpl">Cloud Name</label>
+          <input type="text" class="cpin" id="nube-cl-name" value="${cfg.cloudName||''}" placeholder="mi-cloud">
+        </div>
+        <div>
+          <label class="cpl">Upload Preset</label>
+          <input type="text" class="cpin" id="nube-cl-preset" value="${cfg.cloudPreset||''}" placeholder="westi_upload">
+        </div>
+      </div>
+      
+      <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+        <button class="btn bp bsm" onclick="saveNubeConfig()">💾 Guardar y Conectar</button>
+        <button class="btn bdark bsm" style="color:#ff6b6b;border-color:rgba(255,80,80,.2)" onclick="disconnectNube()">🔌 Desconectar Nube</button>
+      </div>
+
+      <div style="margin-top:20px;padding:12px;background:rgba(201,168,76,.07);border-radius:8px;border:1px solid var(--border);font-size:.82rem;color:var(--muted);line-height:1.5">
+        <strong style="color:var(--gold)">💡 Nota Importante para Sincronizar:</strong><br>
+        Al conectar la nube, este dispositivo se sincronizará. Para que <strong>todos los dispositivos</strong> (incluidos tus clientes) carguen tus cambios de forma automática, recordá reemplazar el valor de <code style="color:var(--gold)">PUBLIC_BIN_ID</code> en tu archivo <code style="color:#f5f0e8">index.html</code> (cerca de la línea 841) por tu Bin ID activo y volver a subir el archivo.
+      </div>
+    `;
+    return;
+  }
+  if(tab==='imagen'){
+    if(!canAccess('imagen')){
+      b.innerHTML=`<div style="padding:40px;text-align:center;color:var(--muted)">⛔ Acceso restringido para este usuario.</div>`;
+      return;
+    }
+    const heroImg=localStorage.getItem('westi_hero_img')||'';
+    const aboutImg=localStorage.getItem('westi_about_img')||'';
+    const defaultHero='https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1600&q=80';
+    const defaultAbout='https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80';
+    const displayHero=heroImg||defaultHero;
+    const displayAbout=aboutImg||defaultAbout;
+    b.innerHTML=`
+      <!-- IMAGEN HERO (fondo) -->
+      <div class="cpsec">Imagen de fondo del hero (banner principal)</div>
+      <div style="margin-bottom:12px;border-radius:10px;overflow:hidden;border:1px solid var(--border)">
+        <img id="hero-img-preview" src="${displayHero}" style="width:100%;height:160px;object-fit:cover;display:block" alt="Preview hero">
+      </div>
+      <div class="cpf">
+        <div style="border:2px dashed var(--border);border-radius:8px;padding:18px;text-align:center;cursor:pointer" onclick="document.getElementById('hero-file-input').click()">
+          <input type="file" id="hero-file-input" accept="image/*" style="display:none" onchange="handleImgUpload(event,'hero')">
+          <div style="font-size:1.6rem;margin-bottom:6px">🌅</div>
+          <div style="color:var(--cream);font-weight:600;font-size:.85rem">Cambiar imagen de fondo del hero</div>
+          <div style="color:var(--muted);font-size:.75rem;margin-top:4px">JPG, PNG, WEBP</div>
+        </div>
+      </div>
+      ${heroImg?`<div style="margin-bottom:18px"><button class="btn bdark bsm" onclick="resetImg('hero')">↺ Restaurar original</button></div>`:''}
+
+      <!-- IMAGEN BARBERÍA WESTI (sección Nosotros) -->
+      <div class="cpsec">Imagen "Barbería Westi" (sección Nosotros)</div>
+      <div style="margin-bottom:12px;border-radius:10px;overflow:hidden;border:1px solid var(--border)">
+        <img id="about-img-preview" src="${displayAbout}" style="width:100%;height:180px;object-fit:cover;display:block" alt="Preview Nosotros">
+      </div>
+      <div class="cpf">
+        <div style="border:2px dashed var(--border);border-radius:8px;padding:18px;text-align:center;cursor:pointer" onclick="document.getElementById('about-file-input').click()">
+          <input type="file" id="about-file-input" accept="image/*" style="display:none" onchange="handleImgUpload(event,'about')">
+          <div style="font-size:1.6rem;margin-bottom:6px">✂️</div>
+          <div style="color:var(--cream);font-weight:600;font-size:.85rem">Cambiar imagen "Barbería Westi"</div>
+          <div style="color:var(--muted);font-size:.75rem;margin-top:4px">Esta imagen aparece en la sección "Nosotros"</div>
+        </div>
+      </div>
+      ${aboutImg?`<div style="margin-bottom:18px"><button class="btn bdark bsm" onclick="resetImg('about')">↺ Restaurar original</button></div>`:''}
+
+      <div style="padding:12px;background:rgba(201,168,76,.07);border-radius:8px;border:1px solid var(--border);font-size:.82rem;color:var(--muted)">
+        ✓ Ambas imágenes se guardan en el navegador y persisten al recargar.
+      </div>
+    `;
+    return;
+  }
+  if(tab==='marca'){b.innerHTML=`<div class="cpsec">Nombre del negocio</div><div class="cpf"><label class="cpl">Nombre</label><input class="cpin" value="${S.name}" oninput="liveUpdate('name',this.value)"></div><div class="cpf"><label class="cpl">Tagline / Slogan</label><input class="cpin" value="${S.tagline}" oninput="liveUpdate('tagline',this.value)"></div><div class="cpf"><label class="cpl">Texto sobre el hero</label><input class="cpin" value="${S.eyebrow||DEFAULT.eyebrow}" oninput="liveUpdate('eyebrow',this.value)"></div><div class="cpsec">Sección Nosotros</div><div class="cpf"><label class="cpl">Título</label><input class="cpin" value="${S.aboutTitle}" oninput="liveUpdate('aboutTitle',this.value)"></div><div class="cpf"><label class="cpl">Etiqueta</label><input class="cpin" value="${S.aboutLabel}" oninput="liveUpdate('aboutLabel',this.value)"></div><div class="cpf"><label class="cpl">Párrafo 1</label><textarea class="cpin" style="min-height:80px;resize:vertical" oninput="liveUpdate('aboutText1',this.value)">${S.aboutText1}</textarea></div><div class="cpf"><label class="cpl">Párrafo 2</label><textarea class="cpin" style="min-height:80px;resize:vertical" oninput="liveUpdate('aboutText2',this.value)">${S.aboutText2}</textarea></div><div class="cpsec">Estadísticas</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div class="cpf"><label class="cpl">Nro. 1</label><input class="cpin" value="${S.stat1}" oninput="liveUpdate('stat1',this.value)"></div><div class="cpf"><label class="cpl">Label 1</label><input class="cpin" value="${S.stat1l}" oninput="liveUpdate('stat1l',this.value)"></div><div class="cpf"><label class="cpl">Nro. 2</label><input class="cpin" value="${S.stat2}" oninput="liveUpdate('stat2',this.value)"></div><div class="cpf"><label class="cpl">Label 2</label><input class="cpin" value="${S.stat2l}" oninput="liveUpdate('stat2l',this.value)"></div><div class="cpf"><label class="cpl">Nro. 3</label><input class="cpin" value="${S.stat3}" oninput="liveUpdate('stat3',this.value)"></div><div class="cpf"><label class="cpl">Label 3</label><input class="cpin" value="${S.stat3l}" oninput="liveUpdate('stat3l',this.value)"></div></div>`;}
+  else if(tab==='colores'){const golds=['#C9A84C','#D4AF37','#B8860B','#E8C96A','#8B7536','#F0C040','#A0784A','#D2691E'];const bgs=['#0A0A0A','#080808','#0D0D0D','#111111','#141414','#050505','#0F0F0F'];const creams=['#F5F0E8','#FFFFFF','#FAF8F5','#EDE8DF','#F0EBE3'];b.innerHTML=`<div class="cpsec">Color acento (dorado)</div><div class="presets">${golds.map(c=>`<div class="preset${S.colorGold===c?' on':''}" style="background:${c}" onclick="liveUpdate('colorGold','${c}');renderApPersContent('colores',document.getElementById('ap-pers-body'))"></div>`).join('')}</div><div class="cpf"><label class="cpl">Personalizado</label><div style="display:flex;gap:8px;align-items:center"><input type="color" class="cpin" value="${S.colorGold}" style="width:48px;height:36px;padding:2px;cursor:pointer" oninput="liveUpdate('colorGold',this.value)"><input class="cpin" value="${S.colorGold}" style="flex:1" oninput="liveUpdate('colorGold',this.value)"></div></div><div class="cpsec">Color de fondo</div><div class="presets">${bgs.map(c=>`<div class="preset${S.colorBg===c?' on':''}" style="background:${c};border:1px solid rgba(255,255,255,.15)" onclick="liveUpdate('colorBg','${c}');renderApPersContent('colores',document.getElementById('ap-pers-body'))"></div>`).join('')}</div><div class="cpf"><label class="cpl">Personalizado</label><div style="display:flex;gap:8px;align-items:center"><input type="color" class="cpin" value="${S.colorBg}" style="width:48px;height:36px;padding:2px;cursor:pointer" oninput="liveUpdate('colorBg',this.value)"><input class="cpin" value="${S.colorBg}" style="flex:1" oninput="liveUpdate('colorBg',this.value)"></div></div><div class="cpsec">Color de texto principal</div><div class="presets">${creams.map(c=>`<div class="preset${S.colorCream===c?' on':''}" style="background:${c}" onclick="liveUpdate('colorCream','${c}');renderApPersContent('colores',document.getElementById('ap-pers-body'))"></div>`).join('')}</div>`;}
+  else if(tab==='tipografia'){const heads=['Bebas Neue','Playfair Display','Abril Fatface'];const bodies=['DM Sans','Syne'];b.innerHTML=`<div class="cpsec">Fuente de títulos</div><div class="fopts">${heads.map(f=>`<div class="fopt${S.fontHeading===f?' on':''}" onclick="liveUpdate('fontHeading','${f}');renderApPersContent('tipografia',document.getElementById('ap-pers-body'))"><div class="fon" style="font-family:'${f}',serif">${f}</div><div class="fop" style="font-family:'${f}',serif">WESTI Barbería Premium</div></div>`).join('')}</div><div class="cpsec">Fuente de texto</div><div class="fopts">${bodies.map(f=>`<div class="fopt${S.fontBody===f?' on':''}" onclick="liveUpdate('fontBody','${f}');renderApPersContent('tipografia',document.getElementById('ap-pers-body'))"><div class="fon" style="font-family:'${f}',sans-serif">${f}</div><div class="fop" style="font-family:'${f}',sans-serif">Texto de ejemplo para el sitio</div></div>`).join('')}</div>`;}
+  else if(tab==='servicios'){b.innerHTML=`<div class="cpsec">Servicios activos</div><div id="svc-list">${renderServicesList()}</div><button class="add-btn" onclick="openAddService()">+ Agregar servicio</button><div class="cpsec">Horarios de turno</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div class="cpf"><label class="cpl">Apertura (hora)</label><input type="number" class="cpin" min="6" max="22" value="${S.openHour||9}" oninput="liveUpdate('openHour',+this.value)"></div><div class="cpf"><label class="cpl">Cierre (hora)</label><input type="number" class="cpin" min="6" max="23" value="${S.closeHour||19}" oninput="liveUpdate('closeHour',+this.value)"></div><div class="cpf"><label class="cpl">Duración (min)</label><select class="cpin" onchange="liveUpdate('slotMin',+this.value)">${[30,60].map(v=>`<option value="${v}"${(S.slotMin||30)===v?' selected':''}>${v} min</option>`).join('')}</select></div></div><div class="cpsec">Días cerrados</div><div style="display:flex;flex-wrap:wrap;gap:7px">${['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'].map((d,i)=>`<div onclick="toggleDayAp(${i})" style="padding:7px 12px;border-radius:6px;font-size:.78rem;cursor:pointer;border:1px solid ${(S.closedDays||[]).includes(i)?'var(--gold)':'var(--border)'};background:${(S.closedDays||[]).includes(i)?'rgba(201,168,76,.12)':'var(--bg)'};color:${(S.closedDays||[]).includes(i)?'var(--gold)':'var(--muted)'};">${d}</div>`).join('')}</div>`;}
+  else if(tab==='barberos'){b.innerHTML=`<div class="cpsec">Equipo de barberos</div><div id="bar-list">${renderBarbersList()}</div><button class="add-btn" onclick="openAddBarber()">+ Agregar barbero</button>`;}
+  else if(tab==='contacto'){b.innerHTML=`<div class="cpsec">WhatsApp</div><div class="cpf"><label class="cpl">Número (con código de país, sin +)</label><input class="cpin" value="${S.whatsapp}" placeholder="5491112345678" oninput="liveUpdate('whatsapp',this.value)"></div><div class="cpsec">Ubicación y horarios</div><div class="cpf"><label class="cpl">Dirección</label><textarea class="cpin" style="min-height:64px;resize:vertical" oninput="liveUpdate('address',this.value)">${S.address}</textarea></div><div class="cpf"><label class="cpl">Horarios de atención</label><textarea class="cpin" style="min-height:64px;resize:vertical" oninput="liveUpdate('hours',this.value)">${S.hours}</textarea></div><div class="cpsec">Redes sociales</div><div class="cpf"><label class="cpl">Instagram (sin @)</label><input class="cpin" value="${S.instagram}" oninput="liveUpdate('instagram',this.value)"></div><div class="cpf"><label class="cpl">TikTok (sin @)</label><input class="cpin" value="${S.tiktok}" oninput="liveUpdate('tiktok',this.value)"></div>`;}
+}
+
+async function saveNubeConfig(){
+  const key = document.getElementById('nube-key').value.trim();
+  const binId = document.getElementById('nube-bin').value.trim();
+  const cloudName = document.getElementById('nube-cl-name').value.trim();
+  const cloudPreset = document.getElementById('nube-cl-preset').value.trim();
+  
+  if(!key || !binId){
+    showToast('La Master Key y el Bin ID son obligatorios.','err');
+    return;
+  }
+  
+  showToast('Probando conexión con la base de datos... ☁');
+  const oldCfg = getCfg();
+  saveCfg({jsonbinKey:key,binId,cloudName,cloudPreset});
+  const data = await jbGet(binId);
+  if(!data){
+    showToast('Error al conectar. Verifica el Bin ID y la Master Key.','err');
+    if(oldCfg)saveCfg(oldCfg);
+    else saveCfg({jsonbinKey:'',binId:'',cloudName:'',cloudPreset:''});
+    return;
+  }
+  
+  saveCfg({jsonbinKey:key,binId,cloudName,cloudPreset});
+  localStorage.setItem('westi_public_bin',binId);
+  
+  if(data.settings){
+    S = {...DEFAULT, ...data.settings};
+    localStorage.setItem('westi_settings', JSON.stringify(S));
+    applySettings();
+  }
+  if(data.turnos) localStorage.setItem('westi_all_turnos', JSON.stringify(data.turnos));
+  if(data.gallery){
+    localStorage.setItem('westi_gallery', JSON.stringify(data.gallery));
+    renderPublicGallery();
+  }
+  if(data.images){
+    if(data.images.hero)localStorage.setItem('westi_hero_img', data.images.hero);
+    if(data.images.about)localStorage.setItem('westi_about_img', data.images.about);
+    applyImages();
+  }
+  
+  showToast('Conectado y datos sincronizados ✓','ok');
+  updateSyncStatus();
+  const body = document.getElementById('ap-pers-body');
+  if(body)renderApPersContent('nube', body);
+}
+
+async function disconnectNube(){
+  const ok = await showConfirm('¿Estás seguro de que querés desconectar la nube y volver al modo local?');
+  if(!ok)return;
+  
+  saveCfg({jsonbinKey:'',binId:'',cloudName:'',cloudPreset:''});
+  localStorage.removeItem('westi_public_bin');
+  showToast('Base de datos desconectada. Modo local activo.','ok');
+  updateSyncStatus();
+  const body = document.getElementById('ap-pers-body');
+  if(body)renderApPersContent('nube', body);
+}
+
+function toggleDayAp(d){const cd=S.closedDays||[];const idx=cd.indexOf(d);if(idx>=0)cd.splice(idx,1);else cd.push(d);S.closedDays=cd;localStorage.setItem('westi_settings',JSON.stringify(S));renderApPersContent('servicios',document.getElementById('ap-pers-body'));}
+
+/* ── ADMIN STATS ── */
+function renderAdminStats(){
+  const turnos=getTurnos();
+  const hoy=new Date().toISOString().slice(0,10);
+  const pend=turnos.filter(t=>t.estado==='pendiente').length;
+  const comp=turnos.filter(t=>t.estado==='completado').length;
+  const hoyN=turnos.filter(t=>t.fecha===hoy&&t.estado!=='cancelado').length;
+  document.getElementById('apstats').innerHTML=[
+    {label:'Total turnos',val:turnos.length,sub:'histórico'},
+    {label:'Pendientes',val:pend,sub:'por atender'},
+    {label:'Completados',val:comp,sub:'atendidos'},
+    {label:'Hoy',val:hoyN,sub:hoy}
+  ].map(s=>`<div class="apstat"><div class="apstat-label">${s.label}</div><div class="apstat-val">${s.val}</div><div class="apstat-sub">${s.sub}</div></div>`).join('');
+}
+
+/* ── ADMIN TABLE ── */
+let apFilter_val='all';
+function apFilter(val,btn){
+  apFilter_val=val;
+  document.querySelectorAll('#apf-all,#apf-pend,#apf-done').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderAdminTable();
+}
+function apToggleSort(){
+  apCurrentSort.dir=apCurrentSort.dir==='asc'?'desc':'asc';
+  document.getElementById('ap-sort').textContent='Fecha '+( apCurrentSort.dir==='asc'?'↑':'↓');
+  renderAdminTable();
+}
+function apSortCol(col){
+  if(apCurrentSort.col===col)apCurrentSort.dir=apCurrentSort.dir==='asc'?'desc':'asc';
+  else{apCurrentSort.col=col;apCurrentSort.dir='asc';}
+  renderAdminTable();
+}
+
+function renderAdminTable(){
+  let turnos=getTurnos();
+  const search=document.getElementById('ap-search')?.value.toLowerCase()||'';
+  if(search)turnos=turnos.filter(t=>(t.nombre||'').toLowerCase().includes(search)||(t.telefono||'').includes(search));
+  if(apFilter_val!=='all')turnos=turnos.filter(t=>t.estado===apFilter_val);
+  turnos.sort((a,b)=>{
+    let va=a[apCurrentSort.col]||'',vb=b[apCurrentSort.col]||'';
+    if(apCurrentSort.col==='fecha'){va=(a.fecha||'')+' '+(a.hora||'');vb=(b.fecha||'')+' '+(b.hora||'');}
+    return apCurrentSort.dir==='asc'?String(va).localeCompare(String(vb)):String(vb).localeCompare(String(va));
+  });
+  const tbody=document.getElementById('ap-tbody');
+  if(!turnos.length){
+    tbody.innerHTML=`<tr><td colspan="8"><div class="apempty"><div class="apempty-ico">📋</div><div>No hay turnos</div></div></td></tr>`;
+    renderAdminStats();return;
+  }
+  tbody.innerHTML=turnos.map(t=>{
+    const bc=t.estado==='pendiente'?'abadge-pend':t.estado==='completado'?'abadge-done':'abadge-cancel';
+    const bl=t.estado==='pendiente'?'Pendiente':t.estado==='completado'?'Completado':'Cancelado';
+    const fd=t.fecha?t.fecha.split('-').reverse().join('/'):'—';
+    return`<tr>
+      <td style="font-weight:500">${t.nombre||'—'}</td>
+      <td style="color:var(--muted)">${t.telefono||'—'}</td>
+      <td>${(t.servicio||'—').split('—')[0].split('$')[0].trim()}</td>
+      <td>${t.barbero||'—'}</td>
+      <td>${fd}</td>
+      <td><strong>${t.hora||'—'}</strong></td>
+      <td><span class="abadge ${bc}">${bl}</span></td>
+      <td><div class="aacts">
+        ${t.estado==='pendiente'?`<button class="aact aact-done" onclick="apMarkDone('${t.id}')">✓ Completar</button>`:''}
+        <button class="aact aact-del" onclick="apDelete('${t.id}')">✕ Borrar</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+  renderAdminStats();
+}
+
+function apMarkDone(id){
+  const t=getTurnos();
+  const item=t.find(x=>String(x.id)===String(id));
+  if(item){item.estado='completado';saveTurnos(t);renderAdminTable();showToast('Turno completado ✓','ok');}
+  else showToast('No se encontró el turno','err');
+}
+
+// Custom confirm dialog (reemplaza confirm() nativo que falla en mobile/webview)
+let _confirmResolveCallback=null;
+function showConfirm(msg){
+  return new Promise(resolve=>{
+    _confirmResolveCallback=resolve;
+    document.getElementById('confirm-msg').textContent=msg;
+    document.getElementById('confirm-overlay').style.display='flex';
+  });
+}
+function confirmResolve(result){
+  document.getElementById('confirm-overlay').style.display='none';
+  if(_confirmResolveCallback){_confirmResolveCallback(result);_confirmResolveCallback=null;}
+}
+
+async function apDelete(id){
+  const ok=await showConfirm('¿Eliminar este turno definitivamente?');
+  if(!ok)return;
+  const turnos=getTurnos().filter(x=>String(x.id)!==String(id));
+  saveTurnos(turnos);
+  renderAdminTable();
+  showToast('Turno eliminado','err');
+}
+
+/* ── ADMIN GALLERY ── */
+function apHandleUpload(ev){
+  const files=Array.from(ev.target.files);
+  if(!files.length)return;
+  const cfg=getCfg();
+  const hasCloudinary=!!(cfg?.cloudName&&cfg?.cloudPreset);
+  const gal=getGallery();
+  let pending=files.length;
+
+  files.forEach(file=>{
+    if(hasCloudinary){
+      // Ruta cloud: Cloudinary → URL → JSONBin
+      showToast('Subiendo a Cloudinary...');
+      uploadToCloudinary(file).then(url=>{
+        if(!url){showToast('Error al subir imagen a Cloudinary','err');pending--;return;}
+        const empty=gal.findIndex(g=>!g.url);
+        if(empty>=0)gal[empty]={...gal[empty],url};
+        else gal.push({id:'g'+Date.now()+Math.random(),url,label:'Nueva imagen',type:'normal'});
+        pending--;
+        if(pending===0){saveGallery(gal);renderAdminGallery();renderPublicGallery();showToast(`${files.length} imagen(es) subidas ✓`,'ok');}
+      });
+    } else {
+      // Ruta local: base64 solo en localStorage (saveGallery lo filtra antes de JSONBin)
+      const reader=new FileReader();
+      reader.onload=e=>{
+        const url=e.target.result;
+        const empty=gal.findIndex(g=>!g.url);
+        if(empty>=0)gal[empty]={...gal[empty],url};
+        else gal.push({id:'g'+Date.now()+Math.random(),url,label:'Nueva imagen',type:'normal'});
+        pending--;
+        if(pending===0){saveGallery(gal);renderAdminGallery();renderPublicGallery();showToast(`${files.length} imagen(es) subidas (solo local)`,'ok');}
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  ev.target.value='';
+}
+
+function apChangeImage(id){
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept='image/*';
+  inp.onchange=ev=>{
+    const file=ev.target.files[0];if(!file)return;
+    const cfg=getCfg();
+    const hasCloudinary=!!(cfg?.cloudName&&cfg?.cloudPreset);
+    if(hasCloudinary){
+      showToast('Subiendo a Cloudinary...');
+      uploadToCloudinary(file).then(url=>{
+        if(!url){showToast('Error Cloudinary','err');return;}
+        const gal=getGallery();const item=gal.find(g=>g.id===id);
+        if(item){item.url=url;saveGallery(gal);renderAdminGallery();renderPublicGallery();showToast('Imagen actualizada ✓','ok');}
+      });
+    } else {
+      const reader=new FileReader();
+      reader.onload=e=>{
+        const gal=getGallery();const item=gal.find(g=>g.id===id);
+        if(item){item.url=e.target.result;saveGallery(gal);renderAdminGallery();renderPublicGallery();showToast('Imagen actualizada (solo local)','ok');}
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  inp.click();
+}
+
+async function apRemoveImage(id){
+  const ok=await showConfirm('¿Eliminar esta imagen de la galería?');
+  if(!ok)return;
+  const gal=getGallery();
+  const item=gal.find(g=>g.id===id);
+  if(item){item.url='';saveGallery(gal);renderAdminGallery();renderPublicGallery();showToast('Imagen eliminada','err');}
+}
+
+function renderAdminGallery(){
+  const gal=getGallery();
+  document.getElementById('apgal-grid').innerHTML=gal.map(g=>`
+    <div class="apgal-item">
+      ${g.url?`<img src="${g.url}" alt="${g.label}">`:`<div class="apgal-placeholder"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span>${g.label}</span></div>`}
+      <div class="apgal-actions">
+        <button class="apgal-btn apgal-btn-change" onclick="apChangeImage('${g.id}')">Cambiar</button>
+        ${g.url?`<button class="apgal-btn apgal-btn-del" onclick="apRemoveImage('${g.id}')">Borrar</button>`:''}
+      </div>
+    </div>`).join('');
+}
+
+/* ── PUBLIC GALLERY ── */
+let galleryExpanded=false;
+function renderPublicGallery(){
+  const gal=getGallery();
+  const grid=document.getElementById('galeria-pub-grid');
+  grid.innerHTML='';
+  gal.forEach((item,i)=>{
+    const isHidden=i>=3;
+    const div=document.createElement('div');
+    div.className='gi rev'+(isHidden?' gm':'')+(galleryExpanded&&isHidden?' exp':'');
+    if(isHidden&&galleryExpanded)div.className='gi rev';
+    if(item.url){
+      div.innerHTML=`<img src="${item.url}" alt="${item.label}" loading="lazy">`;
+    } else {
+      div.innerHTML=`<div style="width:100%;height:100%;background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.8rem">Sin imagen</div>`;
+    }
+    grid.appendChild(div);
+  });
+  initReveal();
+}
+function toggleGallery(){
+  galleryExpanded=!galleryExpanded;
+  document.querySelectorAll('.gi.gm').forEach(e=>e.classList.toggle('exp',galleryExpanded));
+  document.getElementById('gallery-btn').textContent=galleryExpanded?'Ver menos':'Ver más trabajos';
+}
+
+/* ── SETTINGS ── */
+function saveSettings(){
+  localStorage.setItem('westi_settings',JSON.stringify(S));
+  applySettings();
+  schedulSync();
+  showToast('Guardando... ☁','ok');
+}
+
+function getWaUrl(text){
+  const num=S.whatsapp||DEFAULT.whatsapp;
+  const base=`https://wa.me/${num}`;
+  return text?base+'?text='+encodeURIComponent(text):base;
+}
+function applyWaLinks(){
+  const url=getWaUrl();
+  ['wa-bubble','wa-big-btn','footer-wa','footer-walink'].forEach(id=>{const e=el(id);if(e)e.href=url;});
+}
+function applySettings(){
+  const r=document.documentElement;
+  r.style.setProperty('--gold',S.colorGold);
+  r.style.setProperty('--gold2',adjustColor(S.colorGold,10));
+  r.style.setProperty('--bg',S.colorBg);
+  r.style.setProperty('--bg2',adjustColor(S.colorBg,5));
+  r.style.setProperty('--bg3',adjustColor(S.colorBg,12));
+  r.style.setProperty('--cream',S.colorCream);
+  r.style.setProperty('--fh',`'${S.fontHeading}',sans-serif`);
+  r.style.setProperty('--fb',`'${S.fontBody}',sans-serif`);
+  r.style.setProperty('--border',hexToRgba(S.colorGold,0.2));
+  const nm=S.name;
+  const split=nm.length>1?nm.slice(0,-1):nm;
+  const last=nm.length>1?nm.slice(-1):'';
+  el('nav-name').textContent=split;el('nav-name-em').textContent=last;
+  el('hero-title').innerHTML=`${split}<em>${last}</em>`;
+  el('footer-name').textContent=split;el('footer-name-em').textContent=last;
+  el('hero-tagline').innerHTML=S.tagline.replace(/(Una experiencia\.|[^.]+\.)/,'<strong>$1</strong>');
+  el('hero-eyebrow').textContent=S.eyebrow||DEFAULT.eyebrow;
+  el('footer-tagline').textContent=S.tagline;
+  el('about-title').textContent=S.aboutTitle;el('about-label').textContent=S.aboutLabel;
+  el('about-text1').textContent=S.aboutText1;el('about-text2').textContent=S.aboutText2;
+  el('stat1-num').textContent=S.stat1;el('stat1-label').textContent=S.stat1l;
+  el('stat2-num').textContent=S.stat2;el('stat2-label').textContent=S.stat2l;
+  el('stat3-num').textContent=S.stat3;el('stat3-label').textContent=S.stat3l;
+  el('addr-text').innerHTML=S.address.replace('\n','<br>');
+  el('hours-text').innerHTML=S.hours.replace('\n','<br>');
+  applyWaLinks();
+  el('ig-link').href=`https://instagram.com/${S.instagram}`;el('footer-ig').href=`https://instagram.com/${S.instagram}`;
+  el('tt-link').href=`https://tiktok.com/@${S.tiktok}`;el('footer-tt').href=`https://tiktok.com/@${S.tiktok}`;
+  el('footer-addr').textContent=S.address.split('\n')[0];
+  el('footer-hrs').textContent=S.hours.split('\n')[0];
+  el('footer-copy').textContent=`© ${new Date().getFullYear()} ${S.name} Barbería. Todos los derechos reservados.`;
+  document.title=`${S.name} — Barbería`;
+  renderServices();renderBookingStep1();renderBookingStep2();
+}
+
+function adjustColor(hex,amount){const n=parseInt(hex.replace('#',''),16);const r=Math.min(255,Math.max(0,(n>>16)+amount));const g=Math.min(255,Math.max(0,((n>>8)&0xFF)+amount));const b=Math.min(255,Math.max(0,(n&0xFF)+amount));return'#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function hexToRgba(hex,a){const n=parseInt(hex.replace('#',''),16);return`rgba(${n>>16},${(n>>8)&0xFF},${n&0xFF},${a})`}
+function el(id){return document.getElementById(id)}
+
+/* ── SERVICES ── */
+function renderServices(){
+  const g=el('services-grid');if(!g)return;
+  g.innerHTML=S.services.map(s=>`<div class="sc2 rev">${ICONS[s.icon]||ICONS.cut}<div class="sn">${s.name}</div><div class="sd">${s.desc}</div><div class="sf"><div class="sp">${s.price}<small>aprox.</small></div><button class="btn bp bsm" onclick="goBookService('${s.id}')">Reservar</button></div></div>`).join('');
+  initReveal();
+}
+function goBookService(id){booking.service=id;document.querySelector('#turnos').scrollIntoView({behavior:'smooth'});setTimeout(()=>goToStep(2),600)}
+
+/* ── BOOKING ── */
+function renderBookingStep1(){
+  const c=el('booking-services');if(!c)return;
+  c.innerHTML=S.services.map(s=>`<div class="sopt${booking.service===s.id?' sel':''}" onclick="selectService('${s.id}',this)"><div class="son">${s.name}</div><div class="sop">${s.price}</div></div>`).join('');
+}
+function renderBookingStep2(){
+  const c=el('booking-barbers');if(!c)return;
+  c.innerHTML=S.barbers.map(b=>`<div class="bopt${booking.barber===b.id?' sel':''}" onclick="selectBarber('${b.id}',this)"><div class="bav">${b.initials}</div><div class="bon">${b.name}</div><div class="bot">${b.tag}</div></div>`).join('');
+}
+function selectService(id,el){booking.service=id;document.querySelectorAll('.sopt').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');}
+function selectBarber(id,el){booking.barber=id;document.querySelectorAll('.bopt').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');}
+
+function renderCalendar(){
+  const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  el('cal-title').textContent=`${months[calMonth]} ${calYear}`;
+  const first=new Date(calYear,calMonth,1).getDay();
+  const total=new Date(calYear,calMonth+1,0).getDate();
+  const today=new Date();today.setHours(0,0,0,0);
+  let html='';
+  for(let i=0;i<first;i++)html+='<div class="cd emp"></div>';
+  for(let d=1;d<=total;d++){
+    const dt=new Date(calYear,calMonth,d);dt.setHours(0,0,0,0);
+    const dow=dt.getDay();const isPast=dt<today;const isClosed=(S.closedDays||[]).includes(dow);
+    const selStr=booking.date?booking.date.toDateString():'';const isSel=dt.toDateString()===selStr;const isTod=dt.toDateString()===today.toDateString();
+    let cls='cd';if(isPast||isClosed)cls+=' dis';else if(isSel)cls+=' sel';else if(isTod)cls+=' tod';
+    html+=`<div class="${cls}" ${(!isPast&&!isClosed)?`onclick="selectDate(${calYear},${calMonth},${d})"`:''} >${d}</div>`;
+  }
+  el('cal-days').innerHTML=html;
+}
+function changeMonth(d){calMonth+=d;if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
+function selectDate(y,m,d){booking.date=new Date(y,m,d);renderCalendar();renderTimeSlots();}
+
+function renderTimeSlots(){
+  const c=el('time-slots');if(!c)return;
+  if(!booking.date){c.innerHTML='<p style="color:var(--muted);font-size:.9rem">Primero seleccioná una fecha</p>';return;}
+  const slots=[];const oh=S.openHour||9;const ch=S.closeHour||19;const sm=S.slotMin||30;
+  for(let h=oh;h<ch;h++)for(let m=0;m<60;m+=sm)slots.push(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`);
+  const dateKey=booking.date.toISOString().slice(0,10);
+  const allTurnos=getTurnos();
+  const booked=allTurnos.filter(t=>t.fecha===dateKey&&t.estado!=='cancelado').map(t=>t.hora);
+  c.innerHTML=slots.map(s=>{const taken=booked.includes(s);const sel=booking.time===s;return`<div class="ts${taken?' tk':sel?' sel':''}" ${!taken?`onclick="selectTime('${s}',this)"`:''} >${s}</div>`;}).join('');
+  el('step4-sub').textContent=`Disponibilidad para el ${booking.date.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'})}`;
+}
+function selectTime(t,el_){booking.time=t;document.querySelectorAll('.ts').forEach(e=>e.classList.remove('sel'));el_.classList.add('sel');}
+
+function fillConfirm(){
+  const svc=S.services.find(s=>s.id===booking.service);
+  const bar=S.barbers.find(b=>b.id===booking.barber);
+  const dateStr=booking.date?booking.date.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'—';
+  el('cs-svc').textContent=svc?svc.name:'—';el('cs-bar').textContent=bar?bar.name:'—';
+  el('cs-date').textContent=dateStr;el('cs-time').textContent=booking.time||'—';
+  el('cs-name').textContent=booking.name||'—';el('cs-phone').textContent=booking.phone||'—';
+}
+
+function nextStep(){if(!validateStep())return;if(booking.step<6)goToStep(booking.step+1);}
+function prevStep(){if(booking.step>1)goToStep(booking.step-1);}
+
+function validateStep(){
+  const s=booking.step;
+  if(s===1&&!booking.service){showToast('Seleccioná un servicio');return false;}
+  if(s===2&&!booking.barber){showToast('Elegí un barbero');return false;}
+  if(s===3&&!booking.date){showToast('Seleccioná una fecha');return false;}
+  if(s===4&&!booking.time){showToast('Elegí un horario');return false;}
+  if(s===5){
+    booking.name=el('b-name').value.trim();booking.phone=el('b-phone').value.trim();
+    if(!booking.name){showToast('Ingresá tu nombre');return false;}
+    if(!booking.phone){showToast('Ingresá tu teléfono');return false;}
+    fillConfirm();
+  }
+  return true;
+}
+function goToStep(n){
+  booking.step=n;
+  document.querySelectorAll('.stepcont').forEach(e=>e.classList.remove('act'));
+  const s=el('step'+n);if(s)s.classList.add('act');
+  document.querySelectorAll('.sd2').forEach((d,i)=>{d.classList.remove('act','dn');if(i+1<n)d.classList.add('dn');if(i+1===n)d.classList.add('act');});
+  el('pf').style.width=((n-1)/5*100)+'%';
+  if(n===3)renderCalendar();if(n===4)renderTimeSlots();
+}
+
+function confirmBooking(){
+  if(!booking.date||!booking.time)return;
+  const svc=S.services.find(s=>s.id===booking.service);
+  const bar=S.barbers.find(b=>b.id===booking.barber);
+  const dateKey=booking.date.toISOString().slice(0,10);
+  const nuevo={
+    id:Date.now(),
+    nombre:booking.name,telefono:booking.phone,
+    servicio:svc?svc.name:'',barbero:bar?bar.name:'',
+    fecha:dateKey,hora:booking.time,
+    estado:'pendiente',creado:new Date().toISOString()
+  };
+  const all=getTurnos();all.push(nuevo);saveTurnos(all);
+  const dateStr=booking.date.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});
+  el('succ-wa').href=getWaUrl(`Hola! Reservé un turno en ${S.name}:\n✂️ Servicio: ${svc?.name||''}\n👤 Barbero: ${bar?.name||''}\n📅 Fecha: ${dateStr}\n🕐 Hora: ${booking.time}\n👋 Nombre: ${booking.name}\nTel: ${booking.phone}`);
+  el('succ-msg').textContent=`Te esperamos el ${dateStr} a las ${booking.time}. Llegá 5 minutos antes.`;
+  booking.step=7;
+  document.querySelectorAll('.stepcont').forEach(e=>e.classList.remove('act'));
+  el('step-success').classList.add('act');
+  el('pf').style.width='100%';
+  document.querySelectorAll('.sd2').forEach(d=>d.classList.add('dn'));
+}
+
+function resetBooking(){
+  booking={step:1,service:null,barber:null,date:null,time:null,name:'',phone:''};
+  goToStep(1);renderBookingStep1();renderBookingStep2();
+}
+
+/* ── CONTACT ── */
+function sendContact(){
+  const name=el('ct-name').value.trim();const msg=el('ct-msg').value.trim();
+  if(!name||!msg){showToast('Completá todos los campos');return;}
+  window.open(getWaUrl(`Hola! Soy ${name}. ${msg}`), '_blank');
+  el('ct-ok').style.display='block';el('ct-name').value='';el('ct-msg').value='';
+}
+
+/* ── NAVBAR ── */
+window.addEventListener('scroll',()=>el('nav').classList.toggle('sc',window.scrollY>60));
+el('hb').addEventListener('click',()=>{el('hb').classList.toggle('on');el('mm').classList.toggle('on');});
+function closeMM(){el('hb').classList.remove('on');el('mm').classList.remove('on');}
+
+/* ── PARALLAX ── */
+window.addEventListener('scroll',()=>{const bg=el('hero-bg');if(bg)bg.style.transform=`scale(1.06) translateY(${window.scrollY*.25}px)`;});
+
+/* ── REVEAL ── */
+function initReveal(){
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.1});
+  document.querySelectorAll('.rev:not(.vis)').forEach(e=>obs.observe(e));
+}
+
+/* ── CUSTOMIZER (removed - all config in Admin Panel) ── */
+function openCustomizer(){/* Tuerquita removed */}
+function closeCustomizer(){/* Tuerquita removed */}
+function switchTab(tab){activeTab=tab;}
+function renderTabContent(tab){}
+
+function renderServicesList(){return S.services.map(s=>`<div class="csli" id="sli-${s.id}"><div class="csli-info"><div class="csli-nm">${s.name}</div><div class="csli-pr">${s.price}</div></div><div class="csli-acts"><button class="ib" onclick="openEditService('${s.id}')">✎</button><button class="ib del" onclick="deleteService('${s.id}')">✕</button></div></div>`).join('');}
+function renderBarbersList(){return S.barbers.map(b=>`<div class="csli" id="bli-${b.id}"><div class="bav" style="width:38px;height:38px;font-size:1rem;flex-shrink:0">${b.initials}</div><div class="csli-info"><div class="csli-nm">${b.name}</div><div class="csli-pr">${b.tag}</div></div><div class="csli-acts"><button class="ib" onclick="openEditBarber('${b.id}')">✎</button><button class="ib del" onclick="deleteBarber('${b.id}')">✕</button></div></div>`).join('');}
+
+function liveUpdate(key,value){S[key]=value;applySettings();localStorage.setItem('westi_settings',JSON.stringify(S));schedulSync();}
+
+/* ── IMAGE MANAGEMENT (hero bg + about/nosotros) ── */
+async function handleImgUpload(ev, target){
+  const file=ev.target.files[0]; if(!file)return;
+  const lsKey=target==='hero'?'westi_hero_img':'westi_about_img';
+  const cfg=getCfg();
+  const hasCloudinary=!!(cfg?.cloudName&&cfg?.cloudPreset);
+
+  if(hasCloudinary){
+    // Ruta cloud: subir a Cloudinary → guardar URL en JSONBin
+    showToast('Subiendo imagen a Cloudinary... ☁');
+    const url=await uploadToCloudinary(file);
+    if(!url){showToast('Error al subir a Cloudinary. Verificá las credenciales.','err');return;}
+    localStorage.setItem(lsKey,url); // caché local con URL, no base64
+    if(hasCfg()){
+      const binId=getPublicBinId();
+      const imgs=(await jbGet(binId,'images'))||{};
+      imgs[target]=url; // solo URL, nunca base64
+      await jbSet(binId,'images',imgs);
+    }
+    applyImages();
+    const prev=document.getElementById(target==='hero'?'hero-img-preview':'about-img-preview');
+    if(prev)prev.src=url;
+    const b=document.getElementById('ap-pers-body');if(b)renderApPersContent('imagen',b);
+    showToast('Imagen guardada en la nube ✓','ok');
+  } else {
+    // Ruta local-only: base64 SOLO en localStorage, NO en JSONBin
+    showToast('Sin Cloudinary — guardando solo en este dispositivo...');
+    const dataUrl=await uploadLocalOnly(file);
+    localStorage.setItem(lsKey,dataUrl);
+    // NO llamar jbSet aquí — el base64 no va a JSONBin jamás
+    applyImages();
+    const prev=document.getElementById(target==='hero'?'hero-img-preview':'about-img-preview');
+    if(prev)prev.src=dataUrl;
+    const b=document.getElementById('ap-pers-body');if(b)renderApPersContent('imagen',b);
+    showToast('Imagen guardada localmente. Configurá Cloudinary para sincronizar entre dispositivos.');
+  }}
+async function resetImg(target){
+  const lsKey=target==='hero'?'westi_hero_img':'westi_about_img';
+  localStorage.removeItem(lsKey);
+  if(hasCfg()&&getCfg()?.cloudName){
+    const binId=getPublicBinId();
+    const imgs=(await jbGet(binId,'images'))||{};
+    delete imgs[target];
+    await jbSet(binId,'images',imgs);
+  }
+  applyImages();const b=document.getElementById('ap-pers-body');if(b)renderApPersContent('imagen',b);showToast('Imagen restaurada','ok');
+}
+function applyImages(){
+  const heroImg=localStorage.getItem('westi_hero_img');const aboutImgSrc=localStorage.getItem('westi_about_img');
+  const defaultHero='https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1600&q=80';
+  const defaultAbout='https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80';
+  const heroBg=document.getElementById('hero-bg');if(heroBg)heroBg.style.backgroundImage=`url('${heroImg||defaultHero}')`;
+  const aboutImg=document.getElementById('about-img');if(aboutImg)aboutImg.src=aboutImgSrc||defaultAbout;}
+function handleHeroImgUpload(ev){handleImgUpload(ev,'hero');}
+function applyHeroImage(src){const bg=document.getElementById('hero-bg');if(bg)bg.style.backgroundImage=`url('${src}')`;}
+function resetHeroImg(){resetImg('hero');}
+function toggleDay(d){const cd=S.closedDays||[];const idx=cd.indexOf(d);if(idx>=0)cd.splice(idx,1);else cd.push(d);S.closedDays=cd;localStorage.setItem('westi_settings',JSON.stringify(S));
+  renderApPersContent('servicios',document.getElementById('ap-pers-body'));
+}
+
+const iconKeys=Object.keys(ICONS);
+function openAddService(){modalMode='add-service';modalEditId=null;el('modal-title').textContent='Agregar servicio';el('modal-body').innerHTML=serviceForm({id:'',name:'',desc:'',price:'',icon:'cut'});el('modal').classList.add('on');}
+function openEditService(id){const s=S.services.find(x=>x.id===id);if(!s)return;modalMode='edit-service';modalEditId=id;el('modal-title').textContent='Editar servicio';el('modal-body').innerHTML=serviceForm(s);el('modal').classList.add('on');}
+function serviceForm(s){return`<div class="cpf"><label class="cpl">Nombre</label><input class="cpin" id="mf-name" value="${s.name}" placeholder="Corte Clásico"></div><div class="cpf"><label class="cpl">Descripción</label><input class="cpin" id="mf-desc" value="${s.desc}" placeholder="Una línea descriptiva"></div><div class="cpf"><label class="cpl">Precio</label><input class="cpin" id="mf-price" value="${s.price}" placeholder="$3.500"></div><div class="cpf"><label class="cpl">Ícono</label><select class="cpin" id="mf-icon">${iconKeys.map(k=>`<option value="${k}"${s.icon===k?' selected':''}>${k}</option>`).join('')}</select></div>`;}
+function deleteService(id){S.services=S.services.filter(s=>s.id!==id);localStorage.setItem('westi_settings',JSON.stringify(S));applySettings();const b=el('ap-pers-body');if(b)renderApPersContent('servicios',b);}
+function openAddBarber(){modalMode='add-barber';modalEditId=null;el('modal-title').textContent='Agregar barbero';el('modal-body').innerHTML=barberForm({id:'',name:'',tag:'',initials:''});el('modal').classList.add('on');}
+function openEditBarber(id){const b=S.barbers.find(x=>x.id===id);if(!b)return;modalMode='edit-barber';modalEditId=id;el('modal-title').textContent='Editar barbero';el('modal-body').innerHTML=barberForm(b);el('modal').classList.add('on');}
+function barberForm(b){return`<div class="cpf"><label class="cpl">Nombre</label><input class="cpin" id="mf-name" value="${b.name}" placeholder="Nombre del barbero"></div><div class="cpf"><label class="cpl">Especialidad</label><input class="cpin" id="mf-tag" value="${b.tag}" placeholder="Especialista en Fades"></div><div class="cpf"><label class="cpl">Iniciales</label><input class="cpin" id="mf-initials" value="${b.initials}" maxlength="2" placeholder="JG"></div>`;}
+function deleteBarber(id){S.barbers=S.barbers.filter(b=>b.id!==id);localStorage.setItem('westi_settings',JSON.stringify(S));applySettings();const b=el('ap-pers-body');if(b)renderApPersContent('barberos',b);}
+
+function saveModal(){
+  if(modalMode==='add-service'||modalMode==='edit-service'){
+    const name=el('mf-name')?.value.trim();const desc=el('mf-desc')?.value.trim();const price=el('mf-price')?.value.trim();const icon=el('mf-icon')?.value;
+    if(!name){showToast('Ingresá un nombre');return;}
+    if(modalMode==='add-service')S.services.push({id:'s'+Date.now(),name,desc,price,icon});
+    else{const s=S.services.find(x=>x.id===modalEditId);if(s)Object.assign(s,{name,desc,price,icon});}
+    localStorage.setItem('westi_settings',JSON.stringify(S));applySettings();
+    const b=el('ap-pers-body');if(b)renderApPersContent('servicios',b);
+  } else if(modalMode==='add-barber'||modalMode==='edit-barber'){
+    const name=el('mf-name')?.value.trim();const tag=el('mf-tag')?.value.trim();const initials=el('mf-initials')?.value.trim().toUpperCase();
+    if(!name){showToast('Ingresá un nombre');return;}
+    if(modalMode==='add-barber')S.barbers.push({id:'b'+Date.now(),name,tag,initials:initials||name.slice(0,2).toUpperCase()});
+    else{const b=S.barbers.find(x=>x.id===modalEditId);if(b)Object.assign(b,{name,tag,initials:initials||b.initials});}
+    localStorage.setItem('westi_settings',JSON.stringify(S));applySettings();
+    const b=el('ap-pers-body');if(b)renderApPersContent('barberos',b);
+  }
+  closeModal();
+  showToast('Guardado ✓','ok');
+}
+function closeModal(){el('modal').classList.remove('on');}
+
+document.addEventListener('DOMContentLoaded',async()=>{
+  await loadSettings();       // cloud-first, fallback local
+  applySettings();
+  await loadCloudImages();    // cargar URLs de imágenes desde cloud
+  applyImages();
+  await syncGalleryFromCloud(); // galería sincronizada
+  initReveal();
+  goToStep(1);
+  renderCalendar();
+  renderPublicGallery();
+  if(isLoggedIn()){
+    document.getElementById('admin-nav-btn').textContent='Panel Admin';
+  }
+  updateSyncStatus();
+});
+
+el('modal').addEventListener('click',e=>{if(e.target===el('modal'))closeModal();});
+document.getElementById('admin-login-overlay').addEventListener('click',function(e){if(e.target===this)closeAdminLogin();});
+
+/* ════════════════════════════════════════════════════════════
+   CLOUD SETUP WIZARD
+   Se muestra al abrir el panel si no hay cloud configurado.
+   ════════════════════════════════════════════════════════════ */
+function checkCloudSetupNeeded(){
+  const cfgBtn=document.getElementById('cloud-cfg-btn');
+  if(!hasCfg()){
+    if(cfgBtn)cfgBtn.style.display='';
+    // Mostrar setup solo si no fue descartado en esta sesión
+    if(!sessionStorage.getItem('westi_skip_setup')){
+      setTimeout(()=>showCloudSetup(),400);
+    }
+  } else {
+    if(cfgBtn)cfgBtn.style.display='none';
+  }
+}
+
+let setupMode = 'new';
+function toggleSetupMode(mode){
+  setupMode = mode;
+  const btnNew = document.getElementById('btn-mode-new');
+  const btnExist = document.getElementById('btn-mode-exist');
+  const binContainer = document.getElementById('setup-bin-container');
+  const binInstruct = document.getElementById('setup-bin-instruct');
+  if(mode === 'new'){
+    btnNew.classList.add('on');
+    btnExist.classList.remove('on');
+    if(binContainer)binContainer.style.display = 'none';
+    if(binInstruct)binInstruct.style.display = 'none';
+  } else {
+    btnNew.classList.remove('on');
+    btnExist.classList.add('on');
+    if(binContainer)binContainer.style.display = 'block';
+    if(binInstruct)binInstruct.style.display = 'inline';
+  }
+}
+
+function showCloudSetup(){
+  if(document.getElementById('cloud-setup'))return;
+  setupMode = 'new';
+  const overlay=document.createElement('div');
+  overlay.id='cloud-setup';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:3600;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px)';
+  overlay.innerHTML=`
+    <div style="background:#111;border:1px solid rgba(201,168,76,.3);border-radius:18px;padding:32px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto">
+      <div style="font-family:var(--fh);font-size:1.8rem;letter-spacing:.1em;color:var(--gold);margin-bottom:4px">☁ CONECTAR NUBE</div>
+      <div style="color:#888;font-size:.82rem;margin-bottom:22px;line-height:1.55">Para que tus cambios persistan en todos los dispositivos, configurá una base de datos.</div>
+
+      <!-- Selector de modo -->
+      <div style="display:flex;gap:10px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.05);padding-bottom:12px">
+        <button id="btn-mode-new" onclick="toggleSetupMode('new')" class="apctrl on" style="flex:1;text-align:center">Crear Nueva BD</button>
+        <button id="btn-mode-exist" onclick="toggleSetupMode('exist')" class="apctrl" style="flex:1;text-align:center">Conectar Existente</button>
+      </div>
+
+      <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:.79rem;line-height:1.8;color:#999">
+        <strong style="color:var(--gold)">1. JSONBin.io — base de datos (REQUERIDO, gratis)</strong><br>
+        → Andá a <a href="https://jsonbin.io" target="_blank" style="color:var(--gold);text-decoration:underline">jsonbin.io</a> y creá cuenta gratis<br>
+        → Menú izquierdo: <em>API Keys</em> → copiá tu <em>Master Key</em>
+        <span id="setup-bin-instruct" style="display:none"><br>→ Copiá también tu <em>Bin ID</em> de tu base de datos existente.</span>
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#555;display:block;margin-bottom:5px">JSONBin Master Key *</label>
+        <input id="setup-jb-key" type="password" placeholder="\\$2b\\$10\\$..." autocomplete="off" style="width:100%;background:#1a1a1a;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:11px 14px;color:#f5f0e8;font-size:.85rem;font-family:var(--fb);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(255,255,255,.08)'">
+      </div>
+      
+      <!-- Campo Bin ID (solo visible en modo 'exist') -->
+      <div id="setup-bin-container" style="display:none;margin-bottom:14px">
+        <label style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#555;display:block;margin-bottom:5px">JSONBin Bin ID *</label>
+        <input id="setup-jb-bin" placeholder="65529f790574da..." style="width:100%;background:#1a1a1a;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:11px 14px;color:#f5f0e8;font-size:.85rem;font-family:var(--fb);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(255,255,255,.08)'">
+      </div>
+
+      <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:.79rem;line-height:1.8;color:#999">
+        <strong style="color:var(--gold)">2. Cloudinary — imágenes (OPCIONAL, gratis)</strong><br>
+        → Andá a <a href="https://cloudinary.com" target="_blank" style="color:var(--gold);text-decoration:underline">cloudinary.com</a> y creá cuenta gratis<br>
+        → Dashboard: copiá tu <em>Cloud name</em><br>
+        → Settings → Upload → Upload Presets → New Preset → <em>Unsigned</em> → copiá el nombre<br>
+        <span style="color:#555;font-size:.75rem">Sin esto, las imágenes solo se guardan localmente.</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+        <div>
+          <label style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#555;display:block;margin-bottom:5px">Cloud name</label>
+          <input id="setup-cl-name" placeholder="mi-cloud" style="width:100%;background:#1a1a1a;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:11px 14px;color:#f5f0e8;font-size:.85rem;font-family:var(--fb);outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(255,255,255,.08)'">
+        </div>
+        <div>
+          <label style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#555;display:block;margin-bottom:5px">Upload Preset</label>
+          <input id="setup-cl-preset" placeholder="westi_upload" style="width:100%;background:#1a1a1a;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:11px 14px;color:#f5f0e8;font-size:.85rem;font-family:var(--fb);outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(255,255,255,.08)'">
+        </div>
+      </div>
+
+      <div id="setup-err" style="display:none;color:#f87171;font-size:.79rem;margin-bottom:12px;padding:10px 14px;background:rgba(248,113,113,.08);border-radius:6px;border:1px solid rgba(248,113,113,.15)"></div>
+
+      <button onclick="runCloudSetup()" style="width:100%;background:var(--gold);color:#000;border:none;border-radius:8px;padding:13px;font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:var(--fb);transition:background .2s" onmouseover="this.style.background='#D4AF37'" onmouseout="this.style.background='var(--gold)'">
+        ☁ Conectar y guardar en la nube
+      </button>
+      <div style="text-align:center;margin-top:10px">
+        <button onclick="skipCloudSetup()" style="background:none;border:none;color:#444;font-size:.73rem;cursor:pointer;font-family:var(--fb);text-decoration:underline;padding:4px">
+          Usar solo localmente por ahora (los cambios no se verán en otros dispositivos)
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+async function runCloudSetup(){
+  const key=document.getElementById('setup-jb-key').value.trim();
+  let binId=setupMode==='exist'?document.getElementById('setup-jb-bin').value.trim():'';
+  const cloudName=document.getElementById('setup-cl-name').value.trim();
+  const cloudPreset=document.getElementById('setup-cl-preset').value.trim();
+  const errEl=document.getElementById('setup-err');
+  errEl.style.display='none';
+  if(!key){errEl.textContent='⚠ Ingresá tu JSONBin Master Key.';errEl.style.display='block';return;}
+  if(setupMode==='exist'&&!binId){errEl.textContent='⚠ Ingresá tu JSONBin Bin ID.';errEl.style.display='block';return;}
+  
+  saveCfg({jsonbinKey:key,binId,cloudName,cloudPreset});
+  errEl.style.color='#C9A84C';errEl.textContent=setupMode==='exist'?'Conectando con base de datos existente...':'Conectando con JSONBin...';errEl.style.display='block';
+
+  if(setupMode==='new'){
+    // ── Sanitizar settings: SOLO campos primitivos conocidos, sin imágenes ni base64 ──
+    const cleanSettings={
+      name:String(S.name||'WESTI'),
+      tagline:String(S.tagline||''),
+      eyebrow:String(S.eyebrow||''),
+      colorGold:String(S.colorGold||'#C9A84C'),
+      colorBg:String(S.colorBg||'#0A0A0A'),
+      colorCream:String(S.colorCream||'#F5F0E8'),
+      fontHeading:String(S.fontHeading||'Bebas Neue'),
+      fontBody:String(S.fontBody||'DM Sans'),
+      whatsapp:String(S.whatsapp||''),
+      address:String(S.address||''),
+      hours:String(S.hours||''),
+      instagram:String(S.instagram||''),
+      tiktok:String(S.tiktok||''),
+      aboutTitle:String(S.aboutTitle||''),
+      aboutLabel:String(S.aboutLabel||''),
+      aboutText1:String(S.aboutText1||''),
+      aboutText2:String(S.aboutText2||''),
+      stat1:String(S.stat1||''),stat1l:String(S.stat1l||''),
+      stat2:String(S.stat2||''),stat2l:String(S.stat2l||''),
+      stat3:String(S.stat3||''),stat3l:String(S.stat3l||''),
+      closedDays:Array.isArray(S.closedDays)?S.closedDays:[0],
+      openHour:Number(S.openHour||9),
+      closeHour:Number(S.closeHour||19),
+      slotMin:Number(S.slotMin||30),
+      services:(S.services||[]).map(s=>({
+        id:String(s.id),name:String(s.name),
+        desc:String(s.desc),price:String(s.price),icon:String(s.icon)
+      })),
+      barbers:(S.barbers||[]).map(b=>({
+        id:String(b.id),name:String(b.name),
+        tag:String(b.tag),initials:String(b.initials)
+      }))
+    };
+
+    const initialData={
+      settings:cleanSettings,
+      turnos:[],
+      gallery:[],
+      images:{}
+    };
+
+    const bodyStr=JSON.stringify(initialData);
+    console.log('CREATE BIN SIZE',bodyStr.length,'bytes');
+
+    if(bodyStr.length>50000){
+      console.error('initialData demasiado grande:',bodyStr.length,'bytes — abortando');
+      errEl.textContent=`❌ Error interno: initialData demasiado grande (${bodyStr.length} bytes). Recargá la página e intentá de nuevo.`;
+      errEl.style.color='#f87171';errEl.style.display='block';
+      return;
+    }
+
+    const createdBinId=await createBin('westi-data',initialData);
+    if(!createdBinId){
+      errEl.textContent='❌ Error al crear Bin en JSONBin. Verificá tu Master Key y que tengas internet.';
+      errEl.style.color='#f87171';errEl.style.display='block';return;
+    }
+    binId=createdBinId;
+  } else {
+    // Validar Bin existente trayendo sus datos
+    saveCfg({jsonbinKey:key,binId,cloudName,cloudPreset});
+    const testData = await jbGet(binId);
+    if(!testData){
+      errEl.textContent='❌ No se pudo conectar al Bin ID. Verificá que el Bin ID y la Master Key sean válidos.';
+      errEl.style.color='#f87171';errEl.style.display='block';
+      // Limpiamos config fallida
+      saveCfg({jsonbinKey:'',binId:'',cloudName:'',cloudPreset:''});
+      return;
+    }
+    // Si la conexión fue exitosa y trajo datos, actualizamos el estado local
+    if(testData.settings){
+      S={...DEFAULT,...testData.settings};
+      localStorage.setItem('westi_settings',JSON.stringify(S));
+      applySettings();
+    }
+    if(testData.turnos){
+      localStorage.setItem('westi_all_turnos',JSON.stringify(testData.turnos));
+    }
+    if(testData.gallery){
+      localStorage.setItem('westi_gallery',JSON.stringify(testData.gallery));
+      renderPublicGallery();
+    }
+    if(testData.images){
+      if(testData.images.hero)localStorage.setItem('westi_hero_img',testData.images.hero);
+      if(testData.images.about)localStorage.setItem('westi_about_img',testData.images.about);
+      applyImages();
+    }
+  }
+
+  saveCfg({jsonbinKey:key,binId,cloudName,cloudPreset});
+  localStorage.setItem('westi_public_bin',binId); // dispositivo actual ya puede leer
+  localStorage.setItem('westi_settings',JSON.stringify(S));
+  const cfgBtn=document.getElementById('cloud-cfg-btn');if(cfgBtn)cfgBtn.style.display='none';
+  document.getElementById('cloud-setup').remove();
+  showToast('☁ Cloud conectado. Todo se guarda permanentemente ✓','ok');
+  updateSyncStatus();
+
+  setTimeout(()=>showBinIdInstructions(binId),800);
+
+  // Sincronizar datos locales a la nube si es nueva
+  if(setupMode==='new'){
+    const existingTurnos=getTurnos();
+    if(existingTurnos.length){const ts=JSON.stringify(existingTurnos);if(ts.length<200000)jbSet(binId,'turnos',existingTurnos).catch(()=>{});}
+    const existingGal=stripBase64FromGallery(getGallery());
+    const safeGalItems=existingGal.filter(g=>g.url&&g.url.startsWith('https://'));
+    if(safeGalItems.length)jbSet(binId,'gallery',existingGal).catch(()=>{});
+  }
+}
+
+function skipCloudSetup(){
+  sessionStorage.setItem('westi_skip_setup','1');
+  document.getElementById('cloud-setup').remove();
+  showToast('Usando almacenamiento local. Configurá cloud desde el panel cuando quieras.');
+}
+
+/* ── Instrucciones post-setup para multi-dispositivo ── */
+function showBinIdInstructions(binId){
+  const box=document.createElement('div');
+  box.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#111;border:1px solid rgba(201,168,76,.5);border-radius:14px;padding:22px 26px;z-index:3700;max-width:540px;width:calc(100% - 48px);box-shadow:0 20px 60px rgba(0,0,0,.8)';
+  box.innerHTML=`
+    <div style="font-family:var(--fh);font-size:1.1rem;color:var(--gold);margin-bottom:8px;letter-spacing:.06em">☁ Paso final — activar en todos los dispositivos</div>
+    <div style="font-size:.8rem;color:#aaa;line-height:1.6;margin-bottom:14px">
+      Para que <strong style="color:#f5f0e8">cualquier dispositivo</strong> cargue los datos automáticamente, abrí el archivo HTML en un editor de texto, buscá la constante <code style="color:var(--gold)">PUBLIC_BIN_ID</code> al inicio del JavaScript (cerca de la línea 841) y reemplazala por:<br>
+      <code style="display:block;background:#1a1a1a;border:1px solid rgba(201,168,76,.3);border-radius:6px;padding:8px 12px;margin:8px 0;font-size:.82rem;color:#C9A84C;word-break:break-all">const PUBLIC_BIN_ID = '${binId}';</code>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button onclick="navigator.clipboard.writeText('const PUBLIC_BIN_ID = \\'${binId}\\';').then(()=>showToast('Copiado ✓','ok'))" style="background:var(--gold);color:#000;border:none;border-radius:6px;padding:9px 16px;font-size:.78rem;font-weight:700;letter-spacing:.06em;cursor:pointer;font-family:var(--fb)">Copiar línea</button>
+      <span style="font-size:.72rem;color:#555">Tu Bin ID: <strong style="color:#888">${binId}</strong></span>
+      <button onclick="this.closest('div[style]').remove()" style="margin-left:auto;background:none;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:9px 14px;font-size:.75rem;color:#555;cursor:pointer;font-family:var(--fb)">Entendido</button>
+    </div>
+  `;
+  document.body.appendChild(box);
+}
+
+function checkCloudSetupNeeded(){
+  const cfgBtn=document.getElementById('cloud-cfg-btn');
+  const publicBin=getPublicBinId();
+  if(!publicBin&&!hasCfg()){
+    if(cfgBtn)cfgBtn.style.display='';
+    if(!sessionStorage.getItem('westi_skip_setup')){setTimeout(()=>showCloudSetup(),400);}
+  } else {
+    if(cfgBtn)cfgBtn.style.display='none';
+    // Si tiene binId público pero no Master Key → puede leer pero no escribir (visitante normal)
+    if(publicBin&&!getCfg()?.jsonbinKey){
+      console.log('[cloud] Modo lectura — binId disponible, sin Master Key');
+    }
+  }
+}
+</script>
+</body>
+</html>
