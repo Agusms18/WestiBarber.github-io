@@ -849,7 +849,7 @@ function saveCfg(cfg){
 // Admin tiene Master Key → puede escribir
 function hasCfg(){const c=getCfg();return!!(c?.jsonbinKey);}
 // Siempre devuelve el bin correcto — local binId configurado tiene precedencia para poder escribir
-function getPublicBinId(){return localStorage.getItem('westi_public_bin')||getCfg()?.binId||PUBLIC_BIN_ID||'';}
+function getPublicBinId(){return PUBLIC_BIN_ID||localStorage.getItem('westi_public_bin')||getCfg()?.binId||'';}
 function canRead(){return!!getPublicBinId();}
 
 /* ── JSONBin helpers ── */
@@ -986,48 +986,91 @@ async function loadSettings(){
   console.log('[INIT] CONFIG LOCAL', getCfg());
   console.log('[INIT] BIN UTILIZADO', binId);
   if(binId){
-    // Leer todo el bin en una sola llamada (más eficiente)
+    // Una sola llamada al bin — lee settings, turnos, galería e imágenes
     const cloudData=await jbGet(binId);
-    console.log('[INIT] DATA CLOUD', cloudData);
+    console.log('[INIT] DATA CLOUD keys:', cloudData?Object.keys(cloudData):'null');
     if(cloudData){
-      // Cargar settings
+      // ── Settings ──
       if(cloudData.settings){
-        S={...DEFAULT,...cloudData.settings};
+        const rawSettings=cloudData.settings;
+        S={...DEFAULT,...rawSettings};
+        // No contaminar S con _wk
+        delete S._wk;
         localStorage.setItem('westi_settings',JSON.stringify(S));
+        console.log('[INIT] ✓ Settings cargados desde la nube');
       }
-      // ── Cargar write key para usuarios no-admin (permite guardar turnos en la nube) ──
-      if(cloudData.settings?._wk){
-        _cloudWriteKey=cloudData.settings._wk;
-        console.log('[INIT] ✓ Write key cargado para sincronización de turnos');
-      }else if(getCfg()?.jsonbinKey){
+      // ── Write key para usuarios no-admin ──
+      const wk=cloudData.settings?._wk||null;
+      if(wk){
+        _cloudWriteKey=wk;
+        console.log('[INIT] ✓ Write key disponible — turnos pueden sincronizarse');
+      } else if(getCfg()?.jsonbinKey){
         _cloudWriteKey=getCfg().jsonbinKey;
+        console.log('[INIT] ✓ Write key (admin local)');
+      } else {
+        console.warn('[INIT] ✗ Sin write key — los turnos se guardarán solo localmente');
       }
-      // ── Cargar turnos frescos desde la nube para todos los usuarios ──
+      // ── Turnos: siempre desde la nube, es la fuente de verdad ──
       if(Array.isArray(cloudData.turnos)){
         localStorage.setItem('westi_all_turnos',JSON.stringify(cloudData.turnos));
-        console.log('[INIT] ✓ Turnos cargados desde la nube:',cloudData.turnos.length,'reservas');
+        console.log('[INIT] ✓ Turnos cargados:',cloudData.turnos.length,'reserva(s)');
+      } else {
+        console.log('[INIT] Sin turnos en la nube (array vacío o nulo)');
+      }
+      // ── Galería: merge inteligente (no sobreescribir URLs locales con vacíos) ──
+      if(Array.isArray(cloudData.gallery)&&cloudData.gallery.length){
+        const localRaw=localStorage.getItem('westi_gallery');
+        const localGal=localRaw?JSON.parse(localRaw):null;
+        const merged=cloudData.gallery.map(cloudItem=>{
+          if(cloudItem.url)return cloudItem; // URL real en cloud → usar
+          if(localGal){
+            const localItem=localGal.find(l=>l.id===cloudItem.id);
+            if(localItem?.url)return{...cloudItem,url:localItem.url}; // URL local (base64) → conservar
+          }
+          return cloudItem; // sin URL en ningún lado
+        });
+        localStorage.setItem('westi_gallery',JSON.stringify(merged));
+        console.log('[INIT] ✓ Galería cargada:',merged.filter(g=>g.url).length,'imagen(es) con URL');
+      }
+      // ── Imágenes hero/about ──
+      if(cloudData.images){
+        if(cloudData.images.hero&&!isBase64(cloudData.images.hero))localStorage.setItem('westi_hero_img',cloudData.images.hero);
+        if(cloudData.images.about&&!isBase64(cloudData.images.about))localStorage.setItem('westi_about_img',cloudData.images.about);
       }
       if(cloudData.settings)return;
     }
   }
   // Fallback: caché local → DEFAULT
+  console.log('[INIT] Fallback: usando datos locales/DEFAULT');
   try{const s=localStorage.getItem('westi_settings');S=s?{...DEFAULT,...JSON.parse(s)}:{...DEFAULT};}
   catch(e){S={...DEFAULT};}
-  // Intentar cargar write key del admin local si existe
   if(getCfg()?.jsonbinKey)_cloudWriteKey=getCfg().jsonbinKey;
 }
 function getTurnos(){try{return JSON.parse(localStorage.getItem('westi_all_turnos')||'[]')}catch(e){return[];}}
 async function saveTurnos(t){
-  console.log('[TURNOS] Guardando',t.length,'turno(s) en localStorage...');
+  // ── 1. Guardar localmente inmediato (siempre)
   localStorage.setItem('westi_all_turnos',JSON.stringify(t));
+  console.log('[TURNOS] Guardado local ✓ —',t.length,'turno(s)');
+  // ── 2. Sincronizar con la nube
   const binId=getPublicBinId();
   const writeKey=getCfg()?.jsonbinKey||_cloudWriteKey;
-  if(!binId){console.warn('[TURNOS] Sin binId — guardado solo en localStorage');return;}
-  if(!writeKey){console.warn('[TURNOS] Sin write key — guardado solo en localStorage (admin debe guardar configuración de nube primero)');return;}
-  console.log('[TURNOS] Sincronizando con la nube...');
+  console.log('[TURNOS] binId:', binId||'FALTA', '| writeKey:', writeKey?'✓ disponible':'✗ NO disponible');
+  if(!binId){console.warn('[TURNOS] Sin binId — turno guardado solo localmente');showSyncIndicator('err');return;}
+  if(!writeKey){
+    console.warn('[TURNOS] Sin write key — turno local únicamente. El admin debe guardar configuración.');
+    showSyncIndicator('err');
+    showToast('⚠ Turno guardado solo en este dispositivo (sin clave cloud)');
+    return;
+  }
+  console.log('[TURNOS] Enviando a JSONBin...');
   const ok=await jbSet(binId,'turnos',t,writeKey);
-  if(ok){console.log('[TURNOS] ✓ Sincronizado correctamente');showSyncIndicator('ok');}
-  else{console.error('[TURNOS] ✗ Error al sincronizar con la nube');showSyncIndicator('err');}
+  if(ok){
+    console.log('[TURNOS] ✓ Sincronizado con la nube — total:',t.length,'turno(s)');
+    showSyncIndicator('ok');
+  } else {
+    console.error('[TURNOS] ✗ Error al sincronizar. Turno quedó guardado localmente.');
+    showSyncIndicator('err');
+  }
 }
 function getGallery(){try{const g=localStorage.getItem('westi_gallery');return g?JSON.parse(g):[...DEFAULT_GALLERY];}catch(e){return[...DEFAULT_GALLERY];}}
 async function saveGallery(g){
@@ -1037,26 +1080,44 @@ async function saveGallery(g){
 }
 function isLoggedIn(){return localStorage.getItem('westi_admin_session')==='active'||sessionStorage.getItem('westi_admin_session')==='active'}
 async function syncTurnosFromCloud(){
-  const binId=getPublicBinId();if(!binId)return;
-  console.log('[TURNOS] Sincronizando turnos desde la nube...');
+  const binId=getPublicBinId();
+  if(!binId){console.warn('[TURNOS SYNC] Sin binId');return;}
+  console.log('[TURNOS SYNC] Descargando desde JSONBin...');
   const remote=await jbGet(binId,'turnos');
   if(remote&&Array.isArray(remote)){
     localStorage.setItem('westi_all_turnos',JSON.stringify(remote));
-    console.log('[TURNOS] ✓ Recibidos',remote.length,'turno(s) desde la nube');
+    console.log('[TURNOS SYNC] ✓',remote.length,'turno(s) recibidos');
     if(isLoggedIn()){renderAdminTable();renderAdminStats();}
-  }else{console.warn('[TURNOS] Sin datos de turnos en la nube');}
+  } else {
+    console.warn('[TURNOS SYNC] Respuesta vacía o inválida:', remote);
+  }
 }
 async function syncGalleryFromCloud(){
   const binId=getPublicBinId();if(!binId)return;
   const remote=await jbGet(binId,'gallery');
-  if(remote){localStorage.setItem('westi_gallery',JSON.stringify(remote));renderPublicGallery();if(canAccess('galeria'))renderAdminGallery();}
+  if(!remote||!Array.isArray(remote))return;
+  // Merge inteligente: si cloud tiene URL vacía y local tiene algo, preservar local
+  const localRaw=localStorage.getItem('westi_gallery');
+  const localGal=localRaw?JSON.parse(localRaw):null;
+  const merged=remote.map(cloudItem=>{
+    if(cloudItem.url)return cloudItem;
+    if(localGal){const li=localGal.find(l=>l.id===cloudItem.id);if(li?.url)return{...cloudItem,url:li.url};}
+    return cloudItem;
+  });
+  localStorage.setItem('westi_gallery',JSON.stringify(merged));
+  console.log('[GALLERY SYNC] ✓',merged.filter(g=>g.url).length,'imagen(es) activas');
+  renderPublicGallery();
+  if(canAccess('galeria'))renderAdminGallery();
 }
 async function loadCloudImages(){
+  // Las imágenes ya se cargan en loadSettings() junto con el resto del bin.
+  // Esta función se mantiene como fallback independiente si es necesario.
   const binId=getPublicBinId();if(!binId)return;
   const imgs=await jbGet(binId,'images');
   if(!imgs)return;
   if(imgs.hero&&!isBase64(imgs.hero))localStorage.setItem('westi_hero_img',imgs.hero);
   if(imgs.about&&!isBase64(imgs.about))localStorage.setItem('westi_about_img',imgs.about);
+  console.log('[IMAGES] hero:', imgs.hero?'✓':'—', '| about:', imgs.about?'✓':'—');
 }
 
 /* ── TOAST ── */
@@ -1130,6 +1191,7 @@ function tryLogin(){
 }
 
 function adminLogout(){
+  stopTurnosPolling();
   localStorage.removeItem('westi_admin_session');
   localStorage.removeItem('westi_admin_user');
   localStorage.removeItem('westi_admin_ts');
@@ -1141,9 +1203,24 @@ function adminLogout(){
 }
 
 function exitAdminPanel(){
-  // Cierra el panel SIN cerrar sesión
+  stopTurnosPolling();
   document.getElementById('admin-panel').classList.remove('on');
   showToast('Volviste al sitio. Sesión activa ✓');
+}
+
+
+/* ── TURNOS POLLING (actualiza lista cada 30s cuando el panel está abierto) ── */
+let _turnosPollingInterval=null;
+function startTurnosPolling(){
+  if(_turnosPollingInterval)return; // ya activo
+  _turnosPollingInterval=setInterval(async()=>{
+    console.log('[POLLING] Verificando turnos nuevos...');
+    await syncTurnosFromCloud();
+  },30000); // cada 30 segundos
+  console.log('[POLLING] Polling de turnos iniciado (cada 30s)');
+}
+function stopTurnosPolling(){
+  if(_turnosPollingInterval){clearInterval(_turnosPollingInterval);_turnosPollingInterval=null;console.log('[POLLING] Polling detenido');}
 }
 
 /* ── ADMIN PANEL ── */
@@ -1165,8 +1242,9 @@ function openAdminPanel(){
   document.getElementById('admin-panel').classList.add('on');
   renderAdminStats();
   renderAdminTable();
-  syncTurnosFromCloud(); // sync silencioso desde cloud
+  syncTurnosFromCloud(); // sync inmediato desde cloud
   if(canAccess('galeria')){syncGalleryFromCloud();renderAdminGallery();}
+  startTurnosPolling(); // actualizar turnos cada 30s
   if(canAccess('personalizacion')){
     const persBody=document.getElementById('ap-pers-body');
     if(persBody)renderApPersContent(apActivePersonalizacion,persBody);
@@ -1496,7 +1574,8 @@ function apHandleUpload(ev){
         if(pending===0){saveGallery(gal);renderAdminGallery();renderPublicGallery();showToast(`${files.length} imagen(es) subidas ✓`,'ok');}
       });
     } else {
-      // Ruta local: base64 solo en localStorage (saveGallery lo filtra antes de JSONBin)
+      // Sin Cloudinary: base64 en localStorage ÚNICAMENTE
+      // ⚠ La imagen NO se verá en otros dispositivos sin Cloudinary configurado
       const reader=new FileReader();
       reader.onload=e=>{
         const url=e.target.result;
@@ -1504,7 +1583,11 @@ function apHandleUpload(ev){
         if(empty>=0)gal[empty]={...gal[empty],url};
         else gal.push({id:'g'+Date.now()+Math.random(),url,label:'Nueva imagen',type:'normal'});
         pending--;
-        if(pending===0){saveGallery(gal);renderAdminGallery();renderPublicGallery();showToast(`${files.length} imagen(es) subidas (solo local)`,'ok');}
+        if(pending===0){
+          saveGallery(gal);renderAdminGallery();renderPublicGallery();
+          showToast('⚠ Imagen guardada solo en este dispositivo. Configurá Cloudinary para sincronizar entre dispositivos.');
+          console.warn('[GALLERY] Imagen guardada como base64 local — NO visible en otros dispositivos. Configurar Cloudinary.');
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -1742,7 +1825,10 @@ function confirmBooking(){
     fecha:dateKey,hora:booking.time,
     estado:'pendiente',creado:new Date().toISOString()
   };
-  const all=getTurnos();all.push(nuevo);saveTurnos(all);
+  console.log('[TURNO NUEVO]', nuevo);
+  const all=getTurnos();all.push(nuevo);
+  console.log('[TURNOS] Total local antes de sync:', all.length);
+  saveTurnos(all);
   const dateStr=booking.date.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});
   el('succ-wa').href=getWaUrl(`Hola! Reservé un turno en ${S.name}:\n✂️ Servicio: ${svc?.name||''}\n👤 Barbero: ${bar?.name||''}\n📅 Fecha: ${dateStr}\n🕐 Hora: ${booking.time}\n👋 Nombre: ${booking.name}\nTel: ${booking.phone}`);
   el('succ-msg').textContent=`Te esperamos el ${dateStr} a las ${booking.time}. Llegá 5 minutos antes.`;
@@ -1883,19 +1969,18 @@ function saveModal(){
 function closeModal(){el('modal').classList.remove('on');}
 
 document.addEventListener('DOMContentLoaded',async()=>{
-  await loadSettings();       // cloud-first, fallback local
+  await loadSettings(); // cloud-first: carga settings + turnos + galería + imágenes en una sola llamada
   applySettings();
-  await loadCloudImages();    // cargar URLs de imágenes desde cloud
-  applyImages();
-  await syncGalleryFromCloud(); // galería sincronizada
+  applyImages(); // aplica imágenes cargadas en loadSettings
   initReveal();
   goToStep(1);
   renderCalendar();
-  renderPublicGallery();
+  renderPublicGallery(); // galería ya cargada por loadSettings
   if(isLoggedIn()){
     document.getElementById('admin-nav-btn').textContent='Panel Admin';
   }
   updateSyncStatus();
+  console.log('[INIT] ✓ Página lista | turnos:', getTurnos().length, '| writeKey:', _cloudWriteKey?'✓':'✗');
 });
 
 el('modal').addEventListener('click',e=>{if(e.target===el('modal'))closeModal();});
@@ -2114,8 +2199,15 @@ async function runCloudSetup(){
   }
 
   saveCfg({jsonbinKey:key,binId,cloudName,cloudPreset});
-  localStorage.setItem('westi_public_bin',binId); // dispositivo actual ya puede leer
+  localStorage.setItem('westi_public_bin',binId);
   localStorage.setItem('westi_settings',JSON.stringify(S));
+  // ── CRÍTICO: incrustar write key en settings para que TODOS los dispositivos
+  //    (incluyendo clientes sin cuenta admin) puedan guardar turnos en la nube ──
+  const settingsWithWk={...cleanSettings,_wk:key};
+  await jbSet(binId,'settings',settingsWithWk,key).then(ok=>{
+    if(ok)console.log('[SETUP] ✓ Write key embebida en settings — clientes pueden guardar turnos');
+    else console.error('[SETUP] ✗ Error al embeber write key');
+  });
   const cfgBtn=document.getElementById('cloud-cfg-btn');if(cfgBtn)cfgBtn.style.display='none';
   document.getElementById('cloud-setup').remove();
   showToast('☁ Cloud conectado. Todo se guarda permanentemente ✓','ok');
