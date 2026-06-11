@@ -874,18 +874,19 @@ async function jbGet(binId,key){
     return key?data[key]:data;
   }catch(e){return null;}}
 
-async function jbSet(binId,key,value){
+async function jbSet(binId,key,value,overrideKey){
   try{
     const cfg=getCfg();
-    if(!cfg?.jsonbinKey){console.warn('[jbSet] No Master Key — solo lectura');return false;}
+    const masterKey=overrideKey||cfg?.jsonbinKey||_cloudWriteKey;
+    if(!masterKey){console.warn('[jbSet] No Master Key — solo lectura');return false;}
     let current={};
-    const r0=await fetch(`${JSONBIN_BASE}/b/${binId}/latest`,{headers:{'X-Master-Key':cfg.jsonbinKey,'X-Bin-Meta':'false'}});
+    const r0=await fetch(`${JSONBIN_BASE}/b/${binId}/latest`,{headers:{'X-Master-Key':masterKey,'X-Bin-Meta':'false'}});
     if(r0.ok)current=await r0.json();
     if(key)current[key]=value;else current=value;
     const body=JSON.stringify(current);
     console.log('[jbSet] key='+key+' payload:',body.length,'bytes');
     if(body.length>200000){console.error('[jbSet] ABORTED >200KB:',body.length,'bytes');return false;}
-    const r=await fetch(`${JSONBIN_BASE}/b/${binId}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':cfg.jsonbinKey},body});
+    const r=await fetch(`${JSONBIN_BASE}/b/${binId}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':masterKey},body});
     return r.ok;
   }catch(e){console.error('[jbSet] error:',e);return false;}
 }
@@ -934,8 +935,12 @@ async function syncToCloud(){
   const binId=getPublicBinId();
   if(!hasCfg()||!binId){_syncPending=false;return;}
   _syncPending=false;
-  const ok=await jbSet(binId,'settings',S);
-  if(ok){showSyncIndicator('ok');localStorage.setItem('westi_settings',JSON.stringify(S));}
+  // Incrustar _wk en settings para que clientes puedan escribir turnos
+  const cfg=getCfg();
+  const toSave={...S};
+  if(cfg?.jsonbinKey)toSave._wk=cfg.jsonbinKey;
+  const ok=await jbSet(binId,'settings',toSave);
+  if(ok){showSyncIndicator('ok');localStorage.setItem('westi_settings',JSON.stringify(S));console.log('[SYNC] Settings + write key subidos a la nube');}
   else{showSyncIndicator('err');_syncPending=true;}
 }
 function showSyncIndicator(state){
@@ -973,30 +978,56 @@ let activeTab='marca';
 let apCurrentFilter='all';
 let apCurrentSort={col:'fecha',dir:'asc'};
 let loginAttempts=0;
+let _cloudWriteKey=null; // clave de escritura cargada desde la nube para usuarios no-admin
 
 /* ── STORAGE HELPERS ── */
 async function loadSettings(){
   const binId=getPublicBinId();
-  console.log('CONFIG LOCAL', getCfg());
-  console.log('BIN UTILIZADO', binId);
+  console.log('[INIT] CONFIG LOCAL', getCfg());
+  console.log('[INIT] BIN UTILIZADO', binId);
   if(binId){
-    const cloudSettings=await jbGet(binId,'settings');
-    console.log('SETTINGS CLOUD', cloudSettings);
-    if(cloudSettings){
-      S={...DEFAULT,...cloudSettings};
-      localStorage.setItem('westi_settings',JSON.stringify(S));
-      return;
+    // Leer todo el bin en una sola llamada (más eficiente)
+    const cloudData=await jbGet(binId);
+    console.log('[INIT] DATA CLOUD', cloudData);
+    if(cloudData){
+      // Cargar settings
+      if(cloudData.settings){
+        S={...DEFAULT,...cloudData.settings};
+        localStorage.setItem('westi_settings',JSON.stringify(S));
+      }
+      // ── Cargar write key para usuarios no-admin (permite guardar turnos en la nube) ──
+      if(cloudData.settings?._wk){
+        _cloudWriteKey=cloudData.settings._wk;
+        console.log('[INIT] ✓ Write key cargado para sincronización de turnos');
+      }else if(getCfg()?.jsonbinKey){
+        _cloudWriteKey=getCfg().jsonbinKey;
+      }
+      // ── Cargar turnos frescos desde la nube para todos los usuarios ──
+      if(Array.isArray(cloudData.turnos)){
+        localStorage.setItem('westi_all_turnos',JSON.stringify(cloudData.turnos));
+        console.log('[INIT] ✓ Turnos cargados desde la nube:',cloudData.turnos.length,'reservas');
+      }
+      if(cloudData.settings)return;
     }
   }
   // Fallback: caché local → DEFAULT
   try{const s=localStorage.getItem('westi_settings');S=s?{...DEFAULT,...JSON.parse(s)}:{...DEFAULT};}
   catch(e){S={...DEFAULT};}
+  // Intentar cargar write key del admin local si existe
+  if(getCfg()?.jsonbinKey)_cloudWriteKey=getCfg().jsonbinKey;
 }
 function getTurnos(){try{return JSON.parse(localStorage.getItem('westi_all_turnos')||'[]')}catch(e){return[];}}
 async function saveTurnos(t){
+  console.log('[TURNOS] Guardando',t.length,'turno(s) en localStorage...');
   localStorage.setItem('westi_all_turnos',JSON.stringify(t));
   const binId=getPublicBinId();
-  if(hasCfg()&&binId){const ok=await jbSet(binId,'turnos',t);if(ok)showSyncIndicator('ok');else showSyncIndicator('err');}
+  const writeKey=getCfg()?.jsonbinKey||_cloudWriteKey;
+  if(!binId){console.warn('[TURNOS] Sin binId — guardado solo en localStorage');return;}
+  if(!writeKey){console.warn('[TURNOS] Sin write key — guardado solo en localStorage (admin debe guardar configuración de nube primero)');return;}
+  console.log('[TURNOS] Sincronizando con la nube...');
+  const ok=await jbSet(binId,'turnos',t,writeKey);
+  if(ok){console.log('[TURNOS] ✓ Sincronizado correctamente');showSyncIndicator('ok');}
+  else{console.error('[TURNOS] ✗ Error al sincronizar con la nube');showSyncIndicator('err');}
 }
 function getGallery(){try{const g=localStorage.getItem('westi_gallery');return g?JSON.parse(g):[...DEFAULT_GALLERY];}catch(e){return[...DEFAULT_GALLERY];}}
 async function saveGallery(g){
@@ -1007,8 +1038,13 @@ async function saveGallery(g){
 function isLoggedIn(){return localStorage.getItem('westi_admin_session')==='active'||sessionStorage.getItem('westi_admin_session')==='active'}
 async function syncTurnosFromCloud(){
   const binId=getPublicBinId();if(!binId)return;
+  console.log('[TURNOS] Sincronizando turnos desde la nube...');
   const remote=await jbGet(binId,'turnos');
-  if(remote){localStorage.setItem('westi_all_turnos',JSON.stringify(remote));renderAdminTable();renderAdminStats();}
+  if(remote&&Array.isArray(remote)){
+    localStorage.setItem('westi_all_turnos',JSON.stringify(remote));
+    console.log('[TURNOS] ✓ Recibidos',remote.length,'turno(s) desde la nube');
+    if(isLoggedIn()){renderAdminTable();renderAdminStats();}
+  }else{console.warn('[TURNOS] Sin datos de turnos en la nube');}
 }
 async function syncGalleryFromCloud(){
   const binId=getPublicBinId();if(!binId)return;
@@ -2016,7 +2052,8 @@ async function runCloudSetup(){
       barbers:(S.barbers||[]).map(b=>({
         id:String(b.id),name:String(b.name),
         tag:String(b.tag),initials:String(b.initials)
-      }))
+      })),
+      _wk:key
     };
 
     const initialData={
@@ -2071,6 +2108,9 @@ async function runCloudSetup(){
       if(testData.images.about)localStorage.setItem('westi_about_img',testData.images.about);
       applyImages();
     }
+    // Embeber _wk en el bin existente para que clientes puedan guardar turnos
+    _cloudWriteKey=key;
+    schedulSync();
   }
 
   saveCfg({jsonbinKey:key,binId,cloudName,cloudPreset});
